@@ -1,10 +1,7 @@
+import MainLayout from "./components/ui/MainLayout";
 
 const App = () => {
-  return (
-    <div>
-      <h1>Eyeglasses management dashboard</h1>
-    </div>
-  );
+  return <MainLayout />;
 };
 
 export default App;
