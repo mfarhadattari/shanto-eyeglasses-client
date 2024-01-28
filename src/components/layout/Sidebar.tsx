@@ -6,7 +6,7 @@ import {
   UserOutlined,
 } from "@ant-design/icons";
 import { Button, Layout, Menu } from "antd";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 const { Sider } = Layout;
 
@@ -27,7 +27,7 @@ const items = [
     label: <Link to="/sales">Sales</Link>,
   },
   {
-    key: "/profile",
+    key: "/my-profile",
     icon: <UserOutlined />,
     label: <Link to="/my-profile">Profile</Link>,
   },
@@ -64,7 +64,7 @@ const Sidebar = () => {
       <Menu
         theme="dark"
         mode="inline"
-        defaultSelectedKeys={["4"]}
+        defaultSelectedKeys={[useLocation().pathname]}
         items={items}
       />
       <div
