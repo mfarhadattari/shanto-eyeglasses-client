@@ -1,18 +1,21 @@
 import { LockOutlined, UploadOutlined, UserOutlined } from "@ant-design/icons";
 import { Button, Input } from "antd";
-import { useState } from "react";
+import { ChangeEvent, useState } from "react";
 import { FieldValues } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 import EyeForm from "../../components/form/EyeForm";
 import EyeInput from "../../components/form/EyeInput";
 import { useRegistrationMutation } from "../../redux/features/Auth/authApi";
+import { logout } from "../../redux/features/Auth/authSlice";
+import { useAppDispatch } from "../../redux/hooks";
 
 const Registration = () => {
   const [userRegistration] = useRegistrationMutation();
+  const dispatch = useAppDispatch();
   // loading handling
   const [loading, setLoading] = useState(false);
-  const [file, setFile] = useState();
+  const [file, setFile] = useState<any>(null);
 
   const navigate = useNavigate();
 
@@ -22,6 +25,7 @@ const Registration = () => {
       return toast.error("No avatar selected");
     }
     setLoading(true);
+    dispatch(logout());
     try {
       const formData = new FormData();
       const data = JSON.stringify(values);
@@ -34,6 +38,16 @@ const Registration = () => {
     } catch (error: any) {
       setLoading(false);
       toast.error(`${error?.data?.message}!` || "Something went wrong!");
+    }
+  };
+
+  /* ---------------- Handel File Change -------------- */
+  const handelFileChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const files = e.target.files;
+
+    if (files && files.length > 0) {
+      const selected = files[0] as any;
+      setFile(selected);
     }
   };
 
@@ -88,7 +102,7 @@ const Registration = () => {
             marginBottom: "15px",
           }}
           prefix={<UploadOutlined className="site-form-item-icon" />}
-          onChange={(e) => setFile(e.target.files[0])}
+          onChange={handelFileChange}
         />
 
         <EyeInput
