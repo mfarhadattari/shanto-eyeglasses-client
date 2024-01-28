@@ -3,3 +3,10 @@
   padding: 0;
   margin: 0;
 }
+
+.ant-upload-wrapper {
+  margin-bottom: 20px;
+  .ant-upload {
+    width: 100%;
+  }
+}

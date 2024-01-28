@@ -5,6 +5,15 @@ export interface ILoginCredentials {
   password: string;
 }
 
+export interface IRegistrationCredentials {
+  file: any;
+  data: {
+    name: string;
+    email: string;
+    password: string;
+  };
+}
+
 const authApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
     login: builder.mutation({
@@ -14,7 +23,14 @@ const authApi = baseApi.injectEndpoints({
         body: data,
       }),
     }),
+    registration: builder.mutation({
+      query: (data: FormData) => ({
+        url: "/auth/register",
+        method: "POST",
+        body: data,
+      }),
+    }),
   }),
 });
 
-export const { useLoginMutation } = authApi;
+export const { useLoginMutation, useRegistrationMutation } = authApi;
