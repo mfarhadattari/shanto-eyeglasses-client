@@ -3,6 +3,7 @@ import {
   DeleteFilled,
   EditFilled,
   ReadFilled,
+  ShoppingFilled,
 } from "@ant-design/icons";
 import { Button, Image, Skeleton, Table } from "antd";
 import { Link } from "react-router-dom";
@@ -21,6 +22,7 @@ const columns = [
     title: "Name",
     dataIndex: "name",
     key: "name",
+    render: (title: string) => <h3>{title}</h3>,
   },
   {
     title: "Price & Quantity",
@@ -92,13 +94,15 @@ const columns = [
             gap: "5px",
           }}
         >
-          <Button
-            icon={<ReadFilled />}
-            type="primary"
-            style={{ background: "green", width: "100%" }}
-          >
-            <Link to={`/eyeglasses/${record._id}`}>View</Link>
-          </Button>
+          <Link to={`/eyeglasses/${record._id}`}>
+            <Button
+              icon={<ReadFilled />}
+              type="primary"
+              style={{ background: "green", width: "100%" }}
+            >
+              View
+            </Button>
+          </Link>
           <Button
             icon={<EditFilled />}
             type="primary"
@@ -110,13 +114,27 @@ const columns = [
         <Button icon={<CopyFilled />} type="primary">
           Create Variant
         </Button>
-        <Button
-          icon={<DeleteFilled />}
-          type="primary"
-          style={{ background: "red", width: "100%" }}
+        <div
+          style={{
+            display: "flex",
+            gap: "5px",
+          }}
         >
-          Delete
-        </Button>
+          <Button
+            icon={<ShoppingFilled />}
+            type="dashed"
+            style={{ width: "100%" }}
+          >
+            Sale
+          </Button>
+          <Button
+            icon={<DeleteFilled />}
+            type="primary"
+            style={{ background: "red", width: "100%" }}
+          >
+            Delete
+          </Button>
+        </div>
       </div>
     ),
   },

@@ -60,6 +60,6 @@ export type TEyeglass = {
   gender: TGender;
   color: string;
   image: string;
-  otherRelevantAttributes: Record<string, unknown>;
+  otherRelevantAttributes: Record<string, string | number | boolean>;
   isDeleted: boolean;
 };
