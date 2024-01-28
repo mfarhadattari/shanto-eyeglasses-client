@@ -31,8 +31,13 @@ const Eyeglasses = () => {
   // eyeglass delete handling
   const [deleteConfirmOpen, setDeleteConfirmOpen] = useState(false);
   const [deleteEyeglassId, setDeleteEyeglassId] = useState("false");
-  const handelEyeglassDeleteConfirm = (id: string) => {
-    setDeleteEyeglassId(id);
+  const [isDeleteOpe, setIsDeleteOpe] = useState(true);
+  const handelEyeglassDeleteConfirm = (payload: {
+    id: string;
+    isDeleted: boolean;
+  }) => {
+    setDeleteEyeglassId(payload.id);
+    setIsDeleteOpe(!payload.isDeleted);
     setDeleteConfirmOpen(true);
   };
 
@@ -169,12 +174,16 @@ const Eyeglasses = () => {
             {/* ----------- Delete Eyeglass Button ------------- */}
             <Button
               icon={<DeleteFilled />}
-              type="primary"
+              type={record.isDeleted ? "dashed" : "primary"}
               danger
-              disabled={record.isDeleted}
-              onClick={() => handelEyeglassDeleteConfirm(record._id)}
+              onClick={() =>
+                handelEyeglassDeleteConfirm({
+                  id: record._id,
+                  isDeleted: record.isDeleted,
+                })
+              }
             >
-              Delete
+              {record.isDeleted ? "Back" : "Delete"}
             </Button>
           </div>
         </div>
@@ -199,6 +208,7 @@ const Eyeglasses = () => {
         open={deleteConfirmOpen}
         id={deleteEyeglassId}
         onCancel={() => setDeleteConfirmOpen(false)}
+        isDeleteOpe={isDeleteOpe}
       />
       {/*  sale eyeglasses modal */}
       <AddSaleModal

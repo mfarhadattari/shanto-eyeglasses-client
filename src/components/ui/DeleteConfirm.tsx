@@ -6,9 +6,15 @@ interface IDeleteCConfirm {
   open: boolean;
   onCancel: () => void;
   id: string;
+  isDeleteOpe: boolean;
 }
 
-const DeleteConfirm = ({ open, onCancel, id }: IDeleteCConfirm) => {
+const DeleteConfirm = ({
+  open,
+  onCancel,
+  id,
+  isDeleteOpe,
+}: IDeleteCConfirm) => {
   const [deleteEyeglass] = useDeleteEyeglassMutation();
 
   const handelDeleteConfirm = async () => {
@@ -16,9 +22,8 @@ const DeleteConfirm = ({ open, onCancel, id }: IDeleteCConfirm) => {
       const res = await deleteEyeglass(id).unwrap();
       toast.success(res.message);
       onCancel();
-    } catch (error) {
-      console.log(error);
-      toast.error(`` || "Something went wrong!");
+    } catch (error: any) {
+      toast.error(`${error?.data.message}` || "Something went wrong!");
     }
   };
   return (
@@ -30,7 +35,11 @@ const DeleteConfirm = ({ open, onCancel, id }: IDeleteCConfirm) => {
     >
       <Alert
         message="Warning"
-        description="Are you sure to delete?"
+        description={
+          isDeleteOpe
+            ? "Are you sure to delete?"
+            : "Are you sure to delete back?"
+        }
         type="warning"
         showIcon
       />
