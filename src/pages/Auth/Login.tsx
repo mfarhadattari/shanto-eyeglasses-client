@@ -2,25 +2,37 @@ import { LockOutlined, UserOutlined } from "@ant-design/icons";
 import { Button } from "antd";
 import { useState } from "react";
 import { FieldValues } from "react-hook-form";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 import EyeForm from "../../components/form/EyeForm";
 import {
   ILoginCredentials,
   useLoginMutation,
 } from "../../redux/features/Auth/authApi";
+import { setUser } from "../../redux/features/Auth/authSlice";
+import { useAppDispatch } from "../../redux/hooks";
 import EyeInput from "./../../components/form/EyeInput";
 
 const Login = () => {
   const [userLogin] = useLoginMutation();
+  const dispatch = useAppDispatch();
+
+  // loading handling
   const [loading, setLoading] = useState(false);
+
+  // redirect handling
+  const navigate = useNavigate();
+  const redirectUrl = "/";
+
+  /* -------------- Login Submit Handler -------------- */
   const onLoginSubmit = async (value: FieldValues) => {
     setLoading(true);
     const res = (await userLogin(value as ILoginCredentials)) as any;
     if (res?.data?.success === true) {
       const { message, data } = res.data;
-      console.log(data);
-      toast.success(`${message}!`);
+      await dispatch(setUser(data));
+      await toast.success(`${message}!`);
+      navigate(redirectUrl);
     } else if (res?.error) {
       const { message } = res.error.data;
       toast.error(`${message}!`);
