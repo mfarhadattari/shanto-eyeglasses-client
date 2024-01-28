@@ -42,6 +42,7 @@ const eyeManBaseQuery: BaseQueryFn<
 const baseApi = createApi({
   reducerPath: "baseApi",
   baseQuery: eyeManBaseQuery,
+  tagTypes: ["Eyeglasses", "SingleEyeglass", "Sales", "SingleSale"],
   endpoints: () => ({}),
 });
 

@@ -1,7 +1,7 @@
 import { LockOutlined, UploadOutlined, UserOutlined } from "@ant-design/icons";
 import { Button, Input } from "antd";
 import { ChangeEvent, useState } from "react";
-import { FieldValues } from "react-hook-form";
+import { FieldValues, useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 import EyeForm from "../../components/form/EyeForm";
@@ -11,6 +11,7 @@ import { logout } from "../../redux/features/Auth/authSlice";
 import { useAppDispatch } from "../../redux/hooks";
 
 const Registration = () => {
+  const methods = useForm();
   const [userRegistration] = useRegistrationMutation();
   const dispatch = useAppDispatch();
   // loading handling
@@ -32,6 +33,7 @@ const Registration = () => {
       formData.append("file", file);
       formData.append("data", data);
       const res = await userRegistration(formData).unwrap();
+      methods.reset();
       toast.success(`${res.message}!`);
       setLoading(false);
       navigate("/login");
@@ -62,6 +64,7 @@ const Registration = () => {
       }}
     >
       <EyeForm
+        methods={methods}
         className="login-form"
         style={{
           width: "300px",

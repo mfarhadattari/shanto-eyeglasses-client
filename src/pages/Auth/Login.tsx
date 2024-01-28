@@ -1,7 +1,7 @@
 import { LockOutlined, UserOutlined } from "@ant-design/icons";
 import { Button } from "antd";
 import { useState } from "react";
-import { FieldValues } from "react-hook-form";
+import { FieldValues, useForm } from "react-hook-form";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 import EyeForm from "../../components/form/EyeForm";
@@ -14,6 +14,8 @@ import { useAppDispatch } from "../../redux/hooks";
 import EyeInput from "./../../components/form/EyeInput";
 
 const Login = () => {
+  const methods = useForm();
+
   const [userLogin] = useLoginMutation();
   const dispatch = useAppDispatch();
 
@@ -31,6 +33,7 @@ const Login = () => {
     if (res?.data?.success === true) {
       const { message, data } = res.data;
       dispatch(setUser(data));
+      methods.reset();
       toast.success(`${message}!`);
       navigate(redirectUrl);
     } else if (res?.error) {
@@ -53,10 +56,7 @@ const Login = () => {
       }}
     >
       <EyeForm
-        defaultValues={{
-          email: "mfarhad.dev@gmail.com",
-          password: "Asdfg@12345",
-        }}
+        methods={methods}
         className="login-form"
         style={{
           width: "300px",

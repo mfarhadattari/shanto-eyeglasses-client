@@ -7,12 +7,14 @@ const eyeglassApi = baseApi.injectEndpoints({
         url: "/eyeglasses",
         method: "GET",
       }),
+      providesTags: ["Eyeglasses"],
     }),
     getEyeglassDetails: builder.query({
       query: (id) => ({
         url: `/eyeglasses/${id}`,
         method: "GET",
       }),
+      providesTags: ["SingleEyeglass"],
     }),
   }),
 });

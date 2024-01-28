@@ -17,6 +17,8 @@ const Eyeglasses = () => {
   const { data, isLoading, isError, error } = useGetEyeglassesQuery(undefined);
 
   const eyeglasses: TEyeglass[] = data?.data || [];
+
+  // eyeglass sale model handling
   const [showModal, setShowModal] = useState(false);
   const [eyeglassId, setEyeglassId] = useState("");
 
@@ -137,10 +139,12 @@ const Eyeglasses = () => {
               gap: "5px",
             }}
           >
+            {/* ----------- Sale Eyeglasses Button ------------- */}
             <Button
               icon={<ShoppingFilled />}
               type="dashed"
               style={{ width: "100%" }}
+              disabled={record.quantity <= 0}
               onClick={() => handelOpenModal(record._id)}
             >
               Sale
@@ -170,6 +174,7 @@ const Eyeglasses = () => {
           dataSource={eyeglasses.map((e: TEyeglass) => ({ key: e._id, ...e }))}
         />
       )}
+      {/*  sale eyeglasses modal */}
       <AddSaleModal
         open={showModal}
         onCancel={() => setShowModal(false)}

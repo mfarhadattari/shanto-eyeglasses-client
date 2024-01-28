@@ -1,36 +1,21 @@
 import { ReactNode } from "react";
-import {
-  FieldValues,
-  FormProvider,
-  SubmitHandler,
-  useForm,
-} from "react-hook-form";
-
-type TFormConfig = {
-  defaultValues?: Record<string, string>;
-};
+import { FieldValues, FormProvider, SubmitHandler } from "react-hook-form";
 
 type TEyeForm = {
   children: ReactNode;
   onSubmit: SubmitHandler<FieldValues>;
+  methods: any;
   className?: string;
   style?: object;
-  defaultValues?: Record<string, string>;
 };
 
 const EyeForm = ({
   children,
   onSubmit,
+  methods,
   style,
   className,
-  defaultValues,
 }: TEyeForm) => {
-  const formConfig: TFormConfig = {};
-  if (defaultValues) {
-    formConfig.defaultValues = defaultValues;
-  }
-  const methods = useForm(formConfig);
-
   return (
     <FormProvider {...methods}>
       <form
