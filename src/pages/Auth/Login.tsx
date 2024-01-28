@@ -1,12 +1,33 @@
 import { LockOutlined, UserOutlined } from "@ant-design/icons";
 import { Button } from "antd";
+import { useState } from "react";
+import { FieldValues } from "react-hook-form";
 import { Link } from "react-router-dom";
+import { toast } from "sonner";
 import EyeForm from "../../components/form/EyeForm";
+import {
+  ILoginCredentials,
+  useLoginMutation,
+} from "../../redux/features/Auth/authApi";
 import EyeInput from "./../../components/form/EyeInput";
 
 const Login = () => {
-  const onLoginSubmit = (value) => {
-    console.log(value);
+  const [userLogin] = useLoginMutation();
+  const [loading, setLoading] = useState(false);
+  const onLoginSubmit = async (value: FieldValues) => {
+    setLoading(true);
+    const res = (await userLogin(value as ILoginCredentials)) as any;
+    if (res?.data?.success === true) {
+      const { message, data } = res.data;
+      console.log(data);
+      toast.success(`${message}!`);
+    } else if (res?.error) {
+      const { message } = res.error.data;
+      toast.error(`${message}!`);
+    } else {
+      toast.error("Something went wrong!");
+    }
+    return setLoading(false);
   };
 
   return (
@@ -20,6 +41,10 @@ const Login = () => {
       }}
     >
       <EyeForm
+        defaultValues={{
+          email: "mfarhad.dev@gmail.com",
+          password: "Asdfg@12345",
+        }}
         className="login-form"
         style={{
           width: "300px",
@@ -50,6 +75,7 @@ const Login = () => {
           htmlType="submit"
           style={{ width: "100%" }}
           className="login-form-button"
+          loading={loading}
         >
           Log in
         </Button>
