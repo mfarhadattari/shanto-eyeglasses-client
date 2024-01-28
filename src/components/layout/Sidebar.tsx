@@ -49,7 +49,7 @@ const Sidebar = () => {
         }}
       >
         <img
-          src="/public/icon.png"
+          src="/icon.png"
           alt="Eyeglasses Management"
           style={{ height: "50px", width: "50px" }}
         />

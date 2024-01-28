@@ -25,7 +25,7 @@ const MainLayout = () => {
           >
             <Avatar
               size={50}
-              src={user?.avatar || "/public/icon.png"}
+              src={user?.avatar || "/icon.png"}
               style={{ border: "2px solid white", marginRight: "20px" }}
             />
           </div>
