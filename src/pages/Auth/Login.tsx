@@ -27,18 +27,19 @@ const Login = () => {
   /* -------------- Login Submit Handler -------------- */
   const onLoginSubmit = async (value: FieldValues) => {
     setLoading(true);
-    try {
-      const res = (await userLogin(value as ILoginCredentials)) as any;
+    const res = (await userLogin(value as ILoginCredentials)) as any;
+    if (res?.data?.success === true) {
       const { message, data } = res.data;
-      setLoading(false);
       dispatch(setUser(data));
       toast.success(`${message}!`);
       navigate(redirectUrl);
-    } catch (error) {
-      console.log(error);
-      setLoading(false);
+    } else if (res?.error) {
+      const { message } = res.error.data;
+      toast.error(`${message}!`);
+    } else {
       toast.error("Something went wrong!");
     }
+    return setLoading(false);
   };
 
   return (
