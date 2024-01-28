@@ -2,7 +2,7 @@ import { LockOutlined, UserOutlined } from "@ant-design/icons";
 import { Button } from "antd";
 import { useState } from "react";
 import { FieldValues } from "react-hook-form";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 import EyeForm from "../../components/form/EyeForm";
 import {
@@ -22,7 +22,7 @@ const Login = () => {
 
   // redirect handling
   const navigate = useNavigate();
-  const redirectUrl = "/";
+  const redirectUrl = useLocation()?.state?.from || "/";
 
   /* -------------- Login Submit Handler -------------- */
   const onLoginSubmit = async (value: FieldValues) => {
