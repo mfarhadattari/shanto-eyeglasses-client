@@ -1,29 +1,27 @@
-import { Input } from "antd";
-import Alert from "antd/es/alert/Alert";
+import { Alert, Select } from "antd";
 import { ReactNode } from "react";
 import { Controller, useFormContext } from "react-hook-form";
+import { capitalizeString } from "../../utils";
 
-type TEyeInput = {
+interface IEyeSelect {
+  options: string[];
   name: string;
   placeholder: string;
-  type: string;
   label?: string;
-  prefix?: ReactNode;
   requiredMessage?: string;
   style?: object;
   className?: string;
-};
+}
 
-const EyeInput = ({
+const EyeSelect = ({
+  options,
   placeholder,
   name,
   label,
-  type,
-  prefix,
   requiredMessage,
   className,
   style,
-}: TEyeInput) => {
+}: IEyeSelect) => {
   const {
     formState: { errors },
   } = useFormContext();
@@ -53,14 +51,25 @@ const EyeInput = ({
         name={name}
         rules={rules}
         render={({ field }) => (
-          <Input
+          <Select
             {...field}
-            type={type}
-            style={{ width: "100", ...style }}
-            className={className}
+            showSearch
+            style={{ width: "100%", ...style }}
             placeholder={placeholder}
-            id={name}
-            prefix={prefix}
+            className={className}
+            optionFilterProp="children"
+            /* filterOption={(input, option) =>
+              (option?.label ?? "").includes(input)
+            }
+            filterSort={(optionA, optionB) =>
+              (optionA?.label ?? "")
+                .toLowerCase()
+                .localeCompare((optionB?.label ?? "").toLowerCase())
+            } */
+            options={options?.map((value: string) => ({
+              value: value,
+              label: capitalizeString(value),
+            }))}
           />
         )}
       />
@@ -76,4 +85,4 @@ const EyeInput = ({
   );
 };
 
-export default EyeInput;
+export default EyeSelect;

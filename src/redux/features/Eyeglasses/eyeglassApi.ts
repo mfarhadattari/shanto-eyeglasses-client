@@ -23,6 +23,14 @@ const eyeglassApi = baseApi.injectEndpoints({
       }),
       invalidatesTags: ["Eyeglasses"],
     }),
+    addEyeglass: builder.mutation({
+      query: (data: FormData) => ({
+        url: `/eyeglasses`,
+        method: "POST",
+        body: data,
+      }),
+      invalidatesTags: ["Eyeglasses"],
+    }),
   }),
 });
 
@@ -30,4 +38,5 @@ export const {
   useGetEyeglassDetailsQuery,
   useGetEyeglassesQuery,
   useDeleteEyeglassMutation,
+  useAddEyeglassMutation,
 } = eyeglassApi;
