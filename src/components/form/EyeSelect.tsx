@@ -11,6 +11,7 @@ interface IEyeSelect {
   requiredMessage?: string;
   style?: object;
   className?: string;
+  defaultValue?: string;
 }
 
 const EyeSelect = ({
@@ -21,6 +22,7 @@ const EyeSelect = ({
   requiredMessage,
   className,
   style,
+  defaultValue,
 }: IEyeSelect) => {
   const {
     formState: { errors },
@@ -58,14 +60,15 @@ const EyeSelect = ({
             placeholder={placeholder}
             className={className}
             optionFilterProp="children"
-            /* filterOption={(input, option) =>
+            filterOption={(input, option) =>
               (option?.label ?? "").includes(input)
             }
             filterSort={(optionA, optionB) =>
               (optionA?.label ?? "")
                 .toLowerCase()
                 .localeCompare((optionB?.label ?? "").toLowerCase())
-            } */
+            }
+            defaultValue={defaultValue}
             options={options?.map((value: string) => ({
               value: value,
               label: capitalizeString(value),

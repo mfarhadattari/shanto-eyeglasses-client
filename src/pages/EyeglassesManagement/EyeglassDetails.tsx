@@ -11,7 +11,7 @@ const EyeglassDetails = () => {
   const eyeglass: TEyeglass = data?.data;
 
   return isLoading ? (
-    <Skeleton />
+    <Skeleton active />
   ) : isError ? (
     <ErrorUI errorMessage={(error as any)?.data?.message} />
   ) : (

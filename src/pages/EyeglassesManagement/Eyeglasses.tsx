@@ -133,7 +133,10 @@ const Eyeglasses = () => {
               </Button>
             </Link>
             {/* ----------- Edit Eyeglass Button ------------- */}
-            <Link style={{ width: "100%" }} to={`/eyeglasses/update`}>
+            <Link
+              style={{ width: "100%" }}
+              to={`/eyeglasses/update/${record._id}`}
+            >
               <Button
                 icon={<EditFilled />}
                 type="primary"

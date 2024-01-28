@@ -31,6 +31,14 @@ const eyeglassApi = baseApi.injectEndpoints({
       }),
       invalidatesTags: ["Eyeglasses"],
     }),
+    updateEyeglass: builder.mutation({
+      query: ({ id, data }: { id: string; data: Record<string, unknown> }) => ({
+        url: `/eyeglasses/${id}`,
+        method: "PUT",
+        body: data,
+      }),
+      invalidatesTags: ["Eyeglasses", "SingleEyeglass"],
+    }),
   }),
 });
 
@@ -39,4 +47,5 @@ export const {
   useGetEyeglassesQuery,
   useDeleteEyeglassMutation,
   useAddEyeglassMutation,
+  useUpdateEyeglassMutation,
 } = eyeglassApi;

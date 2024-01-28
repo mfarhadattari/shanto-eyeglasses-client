@@ -41,7 +41,7 @@ const route = createBrowserRouter([
             element: <AddEyeglass />,
           },
           {
-            path: "update",
+            path: "update/:id",
             element: <UpdateEyeglass />,
           },
         ],

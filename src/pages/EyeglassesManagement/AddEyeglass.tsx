@@ -39,7 +39,6 @@ const AddEyeglass = () => {
       formData.append("file", file);
       formData.append("data", data);
       const res = await addEyeglass(formData).unwrap();
-      console.log(res);
       methods.reset();
       toast.success(`${res.message}!`);
       setLoading(false);
@@ -87,6 +86,7 @@ const AddEyeglass = () => {
           placeholder="Name"
           type="text"
           requiredMessage="Please enter eyeglass name!"
+          label="Name"
         />
         <div style={{ display: "flex", gap: "10px" }}>
           <EyeInput
@@ -94,22 +94,26 @@ const AddEyeglass = () => {
             placeholder="Price"
             type="number"
             requiredMessage="Please enter eyeglass price!"
+            label="Price"
           />
           <EyeInput
             name="quantity"
             placeholder="Quantity"
             type="number"
             requiredMessage="Please enter eyeglass quantity!"
+            label="Quantity"
           />
         </div>
         <div style={{ display: "flex", gap: "10px" }}>
           <EyeInput
+            label="Brand"
             name="brand"
             placeholder="Brand"
             type="text"
             requiredMessage="Please enter eyeglass brand!"
           />
           <EyeInput
+            label="Color"
             name="color"
             placeholder="Color"
             type="text"
@@ -122,12 +126,14 @@ const AddEyeglass = () => {
             placeholder="Select frame material"
             options={FRAMEMATERIALS}
             requiredMessage="Please select frame material!"
+            label="Frame Material"
           />
           <EyeSelect
             name="frameShape"
             placeholder="Select frame shape"
             options={FRAMESHAPES}
             requiredMessage="Please select frame shape!"
+            label="Frame Shape"
           />
         </div>
         <div style={{ display: "flex", gap: "10px" }}>
@@ -136,22 +142,29 @@ const AddEyeglass = () => {
             placeholder="Select lens type"
             options={LENSTYPES}
             requiredMessage="Please select lens type!"
+            label="Lens Type"
           />
           <EyeSelect
             name="gender"
             placeholder="Select gender"
             options={GENDERS}
             requiredMessage="Please select gender!"
+            label="Gender"
           />
         </div>
-        <Input
-          name="file"
-          type="file"
-          style={{
-            marginBottom: "15px",
-          }}
-          onChange={handelFileChange}
-        />
+        <div>
+          <label style={{ fontSize: "14px", fontWeight: 500 }} htmlFor="file">
+            <span style={{ color: "red" }}>*</span> Image
+          </label>
+          <Input
+            name="file"
+            type="file"
+            style={{
+              marginBottom: "15px",
+            }}
+            onChange={handelFileChange}
+          />
+        </div>
 
         <Button
           type="primary"

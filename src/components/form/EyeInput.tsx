@@ -12,6 +12,7 @@ type TEyeInput = {
   requiredMessage?: string;
   style?: object;
   className?: string;
+  defaultValue?: any;
 };
 
 const EyeInput = ({
@@ -21,6 +22,7 @@ const EyeInput = ({
   type,
   prefix,
   requiredMessage,
+  defaultValue,
   className,
   style,
 }: TEyeInput) => {
@@ -59,6 +61,7 @@ const EyeInput = ({
             style={{ width: "100", ...style }}
             className={className}
             placeholder={placeholder}
+            defaultValue={defaultValue}
             id={name}
             prefix={prefix}
           />
