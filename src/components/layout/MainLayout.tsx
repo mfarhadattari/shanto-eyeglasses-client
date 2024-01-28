@@ -1,10 +1,13 @@
 import { Avatar, Layout } from "antd";
 import { Outlet } from "react-router-dom";
+import { useAppSelector } from "../../redux/hooks";
 import Sidebar from "./Sidebar";
 
 const { Header, Content } = Layout;
 
 const MainLayout = () => {
+  const user = useAppSelector((state) => state.auth.user);
+
   return (
     <Layout style={{ minHeight: "100vh" }}>
       <Sidebar />
@@ -22,7 +25,7 @@ const MainLayout = () => {
           >
             <Avatar
               size={50}
-              src="/public/icon.png"
+              src={user?.avatar || "/public/icon.png"}
               style={{ border: "2px solid white", marginRight: "20px" }}
             />
           </div>

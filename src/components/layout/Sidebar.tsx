@@ -7,6 +7,8 @@ import {
 } from "@ant-design/icons";
 import { Button, Layout, Menu } from "antd";
 import { Link, useLocation } from "react-router-dom";
+import { logout } from "../../redux/features/Auth/authSlice";
+import { useAppDispatch } from "../../redux/hooks";
 
 const { Sider } = Layout;
 
@@ -34,6 +36,7 @@ const items = [
 ];
 
 const Sidebar = () => {
+  const dispatch = useAppDispatch();
   return (
     <Sider style={{ position: "relative" }} breakpoint="lg" collapsedWidth="0">
       <div
@@ -76,7 +79,7 @@ const Sidebar = () => {
           bottom: "20px",
         }}
       >
-        <Button type="primary" danger>
+        <Button onClick={() => dispatch(logout())} type="primary" danger>
           <LogoutOutlined /> Logout
         </Button>
       </div>

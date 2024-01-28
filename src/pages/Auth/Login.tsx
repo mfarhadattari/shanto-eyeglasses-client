@@ -30,8 +30,8 @@ const Login = () => {
     const res = (await userLogin(value as ILoginCredentials)) as any;
     if (res?.data?.success === true) {
       const { message, data } = res.data;
-      await dispatch(setUser(data));
-      await toast.success(`${message}!`);
+      dispatch(setUser(data));
+      toast.success(`${message}!`);
       navigate(redirectUrl);
     } else if (res?.error) {
       const { message } = res.error.data;
