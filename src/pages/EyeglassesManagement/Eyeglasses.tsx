@@ -9,6 +9,7 @@ import { Button, Image, Skeleton, Table } from "antd";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import AddSaleModal from "../../components/ui/AddSaleModal";
+import DeleteConfirm from "../../components/ui/DeleteConfirm";
 import ErrorUI from "../../components/ui/ErrorUI";
 import { useGetEyeglassesQuery } from "../../redux/features/Eyeglasses/eyeglassApi";
 import { TEyeglass } from "../../types/eyeglass.type";
@@ -25,6 +26,14 @@ const Eyeglasses = () => {
   const handelOpenModal = (id: string) => {
     setShowModal(true);
     setEyeglassId(id);
+  };
+
+  // eyeglass delete handling
+  const [deleteConfirmOpen, setDeleteConfirmOpen] = useState(false);
+  const [deleteEyeglassId, setDeleteEyeglassId] = useState("false");
+  const handelEyeglassDeleteConfirm = (id: string) => {
+    setDeleteEyeglassId(id);
+    setDeleteConfirmOpen(true);
   };
 
   // table columns setup
@@ -113,7 +122,8 @@ const Eyeglasses = () => {
               gap: "5px",
             }}
           >
-            <Link to={`/eyeglasses/${record._id}`}>
+            {/* ----------- Eyeglass Details Button ------------- */}
+            <Link style={{ width: "100%" }} to={`/eyeglasses/${record._id}`}>
               <Button
                 icon={<ReadFilled />}
                 type="primary"
@@ -122,14 +132,18 @@ const Eyeglasses = () => {
                 View
               </Button>
             </Link>
-            <Button
-              icon={<EditFilled />}
-              type="primary"
-              style={{ background: "maroon", width: "100%" }}
-            >
-              Edit
-            </Button>
+            {/* ----------- Edit Eyeglass Button ------------- */}
+            <Link style={{ width: "100%" }} to={`/eyeglasses/update`}>
+              <Button
+                icon={<EditFilled />}
+                type="primary"
+                style={{ background: "maroon", width: "100%" }}
+              >
+                Edit
+              </Button>
+            </Link>
           </div>
+          {/* ----------- Duplicate Eyeglass Button ------------- */}
           <Button icon={<CopyFilled />} type="primary">
             Create Variant
           </Button>
@@ -139,20 +153,23 @@ const Eyeglasses = () => {
               gap: "5px",
             }}
           >
-            {/* ----------- Sale Eyeglasses Button ------------- */}
+            {/* ----------- Sale Eyeglass Button ------------- */}
             <Button
               icon={<ShoppingFilled />}
               type="dashed"
               style={{ width: "100%" }}
-              disabled={record.quantity <= 0}
+              disabled={record.quantity <= 0 || record.isDeleted}
               onClick={() => handelOpenModal(record._id)}
             >
               Sale
             </Button>
+            {/* ----------- Delete Eyeglass Button ------------- */}
             <Button
               icon={<DeleteFilled />}
               type="primary"
-              style={{ background: "red", width: "100%" }}
+              danger
+              disabled={record.isDeleted}
+              onClick={() => handelEyeglassDeleteConfirm(record._id)}
             >
               Delete
             </Button>
@@ -174,6 +191,12 @@ const Eyeglasses = () => {
           dataSource={eyeglasses.map((e: TEyeglass) => ({ key: e._id, ...e }))}
         />
       )}
+      {/*  sale eyeglasses modal */}
+      <DeleteConfirm
+        open={deleteConfirmOpen}
+        id={deleteEyeglassId}
+        onCancel={() => setDeleteConfirmOpen(false)}
+      />
       {/*  sale eyeglasses modal */}
       <AddSaleModal
         open={showModal}

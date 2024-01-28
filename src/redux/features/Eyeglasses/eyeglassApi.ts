@@ -16,8 +16,18 @@ const eyeglassApi = baseApi.injectEndpoints({
       }),
       providesTags: ["SingleEyeglass"],
     }),
+    deleteEyeglass: builder.mutation({
+      query: (id) => ({
+        url: `/eyeglasses/${id}`,
+        method: "DELETE",
+      }),
+      invalidatesTags: ["Eyeglasses"],
+    }),
   }),
 });
 
-export const { useGetEyeglassDetailsQuery, useGetEyeglassesQuery } =
-  eyeglassApi;
+export const {
+  useGetEyeglassDetailsQuery,
+  useGetEyeglassesQuery,
+  useDeleteEyeglassMutation,
+} = eyeglassApi;

@@ -6,22 +6,38 @@ import {
   UserOutlined,
 } from "@ant-design/icons";
 import { Button, Layout, Menu } from "antd";
+import { ItemType } from "antd/es/menu/hooks/useItems";
+import { ReactNode } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { logout } from "../../redux/features/Auth/authSlice";
 import { useAppDispatch } from "../../redux/hooks";
 
 const { Sider } = Layout;
 
-const items = [
+interface IMenuItem {
+  key: string;
+  icon?: ReactNode;
+  label: ReactNode;
+  children?: IMenuItem[];
+}
+
+const items: ItemType<IMenuItem>[] = [
   {
     key: "/",
     icon: <HomeOutlined />,
     label: <Link to="/">Home</Link>,
   },
   {
-    key: "/eyeglasses",
+    key: "eyeglasses",
+    label: "Eyeglasses Management",
     icon: <EyeOutlined />,
-    label: <Link to="/eyeglasses">Eyeglasses</Link>,
+    children: [
+      { key: "/eyeglasses", label: <Link to="/eyeglasses">Eyeglasses</Link> },
+      {
+        key: "/eyeglasses/add",
+        label: <Link to="/eyeglasses/add">Add Eyeglass</Link>,
+      },
+    ],
   },
   {
     key: "/sales",
