@@ -4,15 +4,24 @@ import {
   InfoCircleFilled,
   UserOutlined,
 } from "@ant-design/icons";
-import { Button, Skeleton, Table } from "antd";
+import { Button, Select, Skeleton, Table } from "antd";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { toast } from "sonner";
 import ErrorUI from "../../components/ui/ErrorUI";
-import { useGetSalesQuery } from "../../redux/features/Sales/saleApi";
+import {
+  useFilterSalesMutation,
+  useGetSalesQuery,
+} from "../../redux/features/Sales/saleApi";
 import { calculateSalePrice, formatDate } from "../../utils";
 
 const Sales = () => {
+  const [sales, setSales] = useState<any[]>([]);
   const { data, isLoading, isError, error } = useGetSalesQuery(undefined);
-  const sales: any = data?.data || [];
+
+  useEffect(() => {
+    setSales(data?.data || []);
+  }, [data]);
 
   // table columns setup
   const columns = [
@@ -111,6 +120,28 @@ const Sales = () => {
     },
   ];
 
+  // handling sale filtering
+  const [filterSales] = useFilterSalesMutation();
+  const [onFilterLoading, setOnFilterLoading] = useState(false);
+  const handelSaleFilter = async (value: string) => {
+    if (!value || value === "no-filter") {
+      return setSales(data?.data);
+    }
+    setOnFilterLoading(true);
+    try {
+      const res = await filterSales(value).unwrap();
+      if (res.data.length <= 0) {
+        return toast.error("No data found!");
+      }
+      setSales(res.data);
+      setOnFilterLoading(false);
+      toast.success("Filtered Successfully!");
+    } catch (error: any) {
+      setOnFilterLoading(false);
+      toast.error(`${error?.data?.message}!` || "Something went wrong!");
+    }
+  };
+
   return (
     <main>
       {isLoading ? (
@@ -118,10 +149,37 @@ const Sales = () => {
       ) : isError ? (
         <ErrorUI errorMessage={(error as any)?.data?.message} />
       ) : (
-        <Table
-          columns={columns}
-          dataSource={sales.map((e: any) => ({ key: e._id, ...e }))}
-        />
+        <>
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "end",
+            }}
+          >
+            <Select
+              showSearch
+              style={{ width: "200px", marginBottom: "20px" }}
+              placeholder="Filter Sales"
+              optionFilterProp="children"
+              filterOption={(input, option) =>
+                (option?.label ?? "").includes(input)
+              }
+              options={[
+                { label: "No Filter", value: "no-filter" },
+                { label: "Daily", value: "daily" },
+                { label: "Weekly", value: "weekly" },
+                { label: "Monthly", value: "monthly" },
+                { label: "Yearly", value: "yearly" },
+              ]}
+              loading={onFilterLoading}
+              onSelect={handelSaleFilter}
+            />
+          </div>
+          <Table
+            columns={columns}
+            dataSource={sales.map((e: any) => ({ key: e._id, ...e }))}
+          />
+        </>
       )}
     </main>
   );

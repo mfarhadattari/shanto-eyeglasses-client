@@ -30,8 +30,18 @@ const saleApi = baseApi.injectEndpoints({
       }),
       providesTags: ["SingleSale"],
     }),
+    filterSales: builder.mutation({
+      query: (filter: string) => ({
+        url: `/sales/?filter=${filter}`,
+        method: "GET",
+      }),
+    }),
   }),
 });
 
-export const { useAddSaleMutation, useGetSalesQuery, useGetSaleDetailsQuery } =
-  saleApi;
+export const {
+  useAddSaleMutation,
+  useGetSalesQuery,
+  useGetSaleDetailsQuery,
+  useFilterSalesMutation,
+} = saleApi;
