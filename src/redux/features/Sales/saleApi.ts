@@ -16,7 +16,22 @@ const saleApi = baseApi.injectEndpoints({
       }),
       invalidatesTags: ["Eyeglasses"],
     }),
+    getSales: builder.query({
+      query: () => ({
+        url: "/sales",
+        method: "GET",
+      }),
+      providesTags: ["Sales"],
+    }),
+    getSaleDetails: builder.query({
+      query: (id: string) => ({
+        url: `/sales/${id}`,
+        method: "GET",
+      }),
+      providesTags: ["SingleSale"],
+    }),
   }),
 });
 
-export const { useAddSaleMutation } = saleApi;
+export const { useAddSaleMutation, useGetSalesQuery, useGetSaleDetailsQuery } =
+  saleApi;
