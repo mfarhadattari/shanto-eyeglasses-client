@@ -9,6 +9,13 @@ const eyeglassApi = baseApi.injectEndpoints({
       }),
       providesTags: ["Eyeglasses"],
     }),
+    searchEyeglass: builder.mutation({
+      query: (searchTerm: string) => ({
+        url: `/eyeglasses?searchTerm=${searchTerm}`,
+        method: "GET",
+      }),
+      invalidatesTags: ["Eyeglasses"],
+    }),
     getEyeglassDetails: builder.query({
       query: (id) => ({
         url: `/eyeglasses/${id}`,
@@ -48,4 +55,5 @@ export const {
   useDeleteEyeglassMutation,
   useAddEyeglassMutation,
   useUpdateEyeglassMutation,
+  useSearchEyeglassMutation,
 } = eyeglassApi;

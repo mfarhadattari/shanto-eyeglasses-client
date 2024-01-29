@@ -3,21 +3,30 @@ import {
   DeleteFilled,
   EditFilled,
   ReadFilled,
+  SearchOutlined,
   ShoppingFilled,
 } from "@ant-design/icons";
-import { Button, Image, Skeleton, Table } from "antd";
-import { useState } from "react";
+import { Button, Image, Input, Skeleton, Table } from "antd";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { toast } from "sonner";
 import AddSaleModal from "../../components/ui/AddSaleModal";
 import DeleteConfirm from "../../components/ui/DeleteConfirm";
 import ErrorUI from "../../components/ui/ErrorUI";
-import { useGetEyeglassesQuery } from "../../redux/features/Eyeglasses/eyeglassApi";
+import {
+  useGetEyeglassesQuery,
+  useSearchEyeglassMutation,
+} from "../../redux/features/Eyeglasses/eyeglassApi";
 import { TEyeglass } from "../../types/eyeglass.type";
 
 const Eyeglasses = () => {
+  const [eyeglasses, setEyeglasses] = useState<TEyeglass[]>([]);
   const { data, isLoading, isError, error } = useGetEyeglassesQuery(undefined);
 
-  const eyeglasses: TEyeglass[] = data?.data || [];
+  // const eyeglasses: TEyeglass[] = data?.data || [];
+  useEffect(() => {
+    setEyeglasses(data?.data || []);
+  }, [data]);
 
   // eyeglass sale model handling
   const [showModal, setShowModal] = useState(false);
@@ -39,6 +48,24 @@ const Eyeglasses = () => {
     setDeleteEyeglassId(payload.id);
     setIsDeleteOpe(!payload.isDeleted);
     setDeleteConfirmOpen(true);
+  };
+
+  // eyeglass search handling
+  const [searchEyeglasses] = useSearchEyeglassMutation();
+  const onEyeglassesSearch = async (e: any) => {
+    const searchTerm = e.target.value;
+    if (!searchTerm) {
+      setEyeglasses(data?.data);
+    }
+    try {
+      const res = await searchEyeglasses(searchTerm).unwrap();
+      if (res.data.length <= 0) {
+        return toast.error("No data found!");
+      }
+      setEyeglasses(res.data);
+    } catch (error: any) {
+      toast.error(`${error?.data?.message}!` || "Something went wrong!");
+    }
   };
 
   // table columns setup
@@ -207,10 +234,34 @@ const Eyeglasses = () => {
       ) : isError ? (
         <ErrorUI errorMessage={(error as any)?.data?.message} />
       ) : (
-        <Table
-          columns={columns}
-          dataSource={eyeglasses.map((e: TEyeglass) => ({ key: e._id, ...e }))}
-        />
+        <div>
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "end",
+            }}
+          >
+            <Input
+              style={{
+                marginBottom: "20px",
+                width: "300px",
+              }}
+              placeholder="Search"
+              prefix={<SearchOutlined />}
+              allowClear
+              size="large"
+              type="search"
+              onChange={onEyeglassesSearch}
+            />
+          </div>
+          <Table
+            columns={columns}
+            dataSource={eyeglasses.map((e: TEyeglass) => ({
+              key: e._id,
+              ...e,
+            }))}
+          />
+        </div>
       )}
       {/*  sale eyeglasses modal */}
       <DeleteConfirm
