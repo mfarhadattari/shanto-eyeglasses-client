@@ -13,6 +13,7 @@ import { toast } from "sonner";
 import AddSaleModal from "../../components/ui/AddSaleModal";
 import DeleteConfirm from "../../components/ui/DeleteConfirm";
 import ErrorUI from "../../components/ui/ErrorUI";
+import FilterEyeglasses from "../../components/ui/FilterEyeglasses";
 import {
   useGetEyeglassesQuery,
   useSearchEyeglassMutation,
@@ -238,9 +239,12 @@ const Eyeglasses = () => {
           <div
             style={{
               display: "flex",
-              justifyContent: "end",
+              justifyContent: "space-between",
+              alignItems: "start",
+              marginBottom: "20px",
             }}
           >
+            <FilterEyeglasses setEyeglasses={setEyeglasses} />
             <Input
               style={{
                 marginBottom: "20px",
