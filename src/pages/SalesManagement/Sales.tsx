@@ -61,7 +61,7 @@ const Sales = () => {
           }}
         >
           <p>
-            <UserOutlined /> {record?.seller?.name || "User"}
+            <UserOutlined /> {record?.seller?.name}
           </p>
           <p>
             <ClockCircleOutlined /> {formatDate(record.saleAt)}

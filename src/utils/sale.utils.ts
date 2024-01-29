@@ -1,3 +1,5 @@
+import moment from "moment";
+
 /* --------------> Sale Price Calculator <--------------- */
 export const calculateSalePrice = (quantity: number, price: number) => {
   return quantity * price;
@@ -5,5 +7,5 @@ export const calculateSalePrice = (quantity: number, price: number) => {
 
 /* --------------> Sale At Date Format <--------------- */
 export const formatDate = (dateTime: string) => {
-  return new Date(dateTime).toDateString();
+  return moment(dateTime).format("dddd, DD MMMM YYYY, HH:mm:ss");
 };
