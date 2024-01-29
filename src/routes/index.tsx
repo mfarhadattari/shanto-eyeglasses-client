@@ -4,6 +4,7 @@ import Login from "../pages/Auth/Login";
 import Profile from "../pages/Auth/Profile";
 import Registration from "../pages/Auth/Registration";
 import AddEyeglass from "../pages/EyeglassesManagement/AddEyeglass";
+import CreateEyeglassVariant from "../pages/EyeglassesManagement/CreateEyeglassVariant";
 import EyeglassDetails from "../pages/EyeglassesManagement/EyeglassDetails";
 import Eyeglasses from "../pages/EyeglassesManagement/Eyeglasses";
 import UpdateEyeglass from "../pages/EyeglassesManagement/UpdateEyeglass";
@@ -39,6 +40,10 @@ const route = createBrowserRouter([
           {
             path: "add",
             element: <AddEyeglass />,
+          },
+          {
+            path: "create-variant/:id",
+            element: <CreateEyeglassVariant />,
           },
           {
             path: "update/:id",

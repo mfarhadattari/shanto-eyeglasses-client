@@ -21,7 +21,7 @@ const eyeglassApi = baseApi.injectEndpoints({
         url: `/eyeglasses/${id}`,
         method: "DELETE",
       }),
-      invalidatesTags: ["Eyeglasses"],
+      invalidatesTags: ["Eyeglasses", "SingleEyeglass"],
     }),
     addEyeglass: builder.mutation({
       query: (data: FormData) => ({
@@ -29,7 +29,7 @@ const eyeglassApi = baseApi.injectEndpoints({
         method: "POST",
         body: data,
       }),
-      invalidatesTags: ["Eyeglasses"],
+      invalidatesTags: ["Eyeglasses", "SingleEyeglass"],
     }),
     updateEyeglass: builder.mutation({
       query: ({ id, data }: { id: string; data: Record<string, unknown> }) => ({

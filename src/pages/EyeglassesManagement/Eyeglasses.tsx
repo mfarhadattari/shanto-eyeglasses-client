@@ -48,7 +48,7 @@ const Eyeglasses = () => {
       dataIndex: "image",
       key: "image",
       render: (image: string) => (
-        <Image src={image} alt="Eyeglass" width={100} />
+        <Image src={image} alt="Eyeglass" width={100} height={100} />
       ),
     },
     {
@@ -151,10 +151,19 @@ const Eyeglasses = () => {
               </Button>
             </Link>
           </div>
-          {/* ----------- Duplicate Eyeglass Button ------------- */}
-          <Button icon={<CopyFilled />} type="primary">
-            Create Variant
-          </Button>
+          {/* ----------- Create Eyeglass Variant Button ------------- */}
+          <Link
+            style={{ width: "100%" }}
+            to={`/eyeglasses/create-variant/${record._id}`}
+          >
+            <Button
+              style={{ width: "100%" }}
+              icon={<CopyFilled />}
+              type="primary"
+            >
+              Create Variant
+            </Button>
+          </Link>
           <div
             style={{
               display: "flex",

@@ -1,21 +1,30 @@
-import { Button } from "antd";
+import { Button, Skeleton } from "antd";
 import { ChangeEvent, useState } from "react";
 import { FieldValues, useForm } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "sonner";
 import EyeFileInput from "../../components/form/EyeFileInput";
 import EyeForm from "../../components/form/EyeForm";
 import EyeInput from "../../components/form/EyeInput";
 import EyeSelect from "../../components/form/EyeSelect";
+import ErrorUI from "../../components/ui/ErrorUI";
 import {
   FRAMEMATERIALS,
   FRAMESHAPES,
   GENDERS,
   LENSTYPES,
 } from "../../const/eyeglass.const";
-import { useAddEyeglassMutation } from "../../redux/features/Eyeglasses/eyeglassApi";
+import {
+  useAddEyeglassMutation,
+  useGetEyeglassDetailsQuery,
+} from "../../redux/features/Eyeglasses/eyeglassApi";
+import { TEyeglass } from "../../types/eyeglass.type";
 
-const AddEyeglass = () => {
+const CreateEyeglassVariant = () => {
+  const { id } = useParams();
+  const { data, isLoading, isError, error } = useGetEyeglassDetailsQuery(id);
+  const eyeglass: TEyeglass = data?.data;
+
   const methods = useForm();
 
   // loading handling
@@ -26,29 +35,39 @@ const AddEyeglass = () => {
 
   const [addEyeglass] = useAddEyeglassMutation();
 
-  /* ---------------- Eyeglass Submit Handler -------------- */
-  const onAddEyeglassFormSubmit = async (values: FieldValues) => {
+  /* ---------------- Create Eyeglass Variant Submit Handler -------------- */
+  const onCreateEyeglassVariantFormSubmit = async (values: FieldValues) => {
     if (!file) {
       return toast.error("No image selected");
     }
     setLoading(true);
     try {
       const formData = new FormData();
-      const data: Record<string, any> = values;
-      Object.entries(data).forEach(([key, value]) => {
-        if (key === "price" || key === "quantity") {
-          data[key] = Number(value);
+      let data: Record<string, any> = {
+        ...eyeglass,
+        _id: undefined,
+        image: undefined,
+      };
+
+      Object.entries(values).forEach(([key, value]) => {
+        if (value) {
+          if (key === "price" || key === "quantity") {
+            value = Number(value);
+          }
+          data = {
+            ...data,
+            [key]: value,
+          };
         }
       });
-
       const strData = JSON.stringify(data);
       formData.append("file", file);
       formData.append("data", strData);
       const res = await addEyeglass(formData).unwrap();
       setLoading(false);
-      setFileReset(true);
       methods.reset();
-      toast.success(`${res.message}!`);
+      setFileReset(true);
+      toast.success(`Eyeglass variant create successfully!`);
       navigate(`/eyeglasses/${res.data._id}`);
     } catch (error: any) {
       setLoading(false);
@@ -65,7 +84,11 @@ const AddEyeglass = () => {
     }
   };
 
-  return (
+  return isLoading ? (
+    <Skeleton active />
+  ) : id && isError ? (
+    <ErrorUI errorMessage={(error as any)?.data?.message} />
+  ) : (
     <main
       style={{
         width: "100%",
@@ -77,7 +100,7 @@ const AddEyeglass = () => {
       <EyeForm
         style={{ width: "75%", margin: "0 auto" }}
         methods={methods}
-        onSubmit={onAddEyeglassFormSubmit}
+        onSubmit={onCreateEyeglassVariantFormSubmit}
       >
         <h3
           style={{
@@ -86,30 +109,30 @@ const AddEyeglass = () => {
             fontSize: "20px",
           }}
         >
-          Add Eyeglass
+          Create Variant
         </h3>
 
         <EyeInput
           name="name"
           placeholder="Name"
           type="text"
-          requiredMessage="Please enter eyeglass name!"
           label="Name"
+          defaultValue={eyeglass?.name}
         />
         <div style={{ display: "flex", gap: "10px" }}>
           <EyeInput
             name="price"
             placeholder="Price"
             type="number"
-            requiredMessage="Please enter eyeglass price!"
             label="Price"
+            defaultValue={eyeglass?.price}
           />
           <EyeInput
             name="quantity"
             placeholder="Quantity"
             type="number"
-            requiredMessage="Please enter eyeglass quantity!"
             label="Quantity"
+            defaultValue={eyeglass?.quantity}
           />
         </div>
         <div style={{ display: "flex", gap: "10px" }}>
@@ -118,14 +141,14 @@ const AddEyeglass = () => {
             name="brand"
             placeholder="Brand"
             type="text"
-            requiredMessage="Please enter eyeglass brand!"
+            defaultValue={eyeglass?.brand}
           />
           <EyeInput
             label="Color"
             name="color"
             placeholder="Color"
             type="text"
-            requiredMessage="Please enter eyeglass color!"
+            defaultValue={eyeglass?.color}
           />
         </div>
         <div style={{ display: "flex", gap: "10px" }}>
@@ -133,15 +156,15 @@ const AddEyeglass = () => {
             name="frameMaterial"
             placeholder="Select frame material"
             options={FRAMEMATERIALS}
-            requiredMessage="Please select frame material!"
             label="Frame Material"
+            defaultValue={eyeglass?.frameMaterial}
           />
           <EyeSelect
             name="frameShape"
             placeholder="Select frame shape"
             options={FRAMESHAPES}
-            requiredMessage="Please select frame shape!"
             label="Frame Shape"
+            defaultValue={eyeglass?.frameShape}
           />
         </div>
         <div style={{ display: "flex", gap: "10px" }}>
@@ -149,15 +172,15 @@ const AddEyeglass = () => {
             name="lensType"
             placeholder="Select lens type"
             options={LENSTYPES}
-            requiredMessage="Please select lens type!"
             label="Lens Type"
+            defaultValue={eyeglass?.lensType}
           />
           <EyeSelect
             name="gender"
             placeholder="Select gender"
             options={GENDERS}
-            requiredMessage="Please select gender!"
             label="Gender"
+            defaultValue={eyeglass?.gender}
           />
         </div>
         <EyeFileInput
@@ -175,11 +198,11 @@ const AddEyeglass = () => {
           style={{ width: "100%" }}
           loading={loading}
         >
-          Add Eyeglass
+          Create Variant{" "}
         </Button>
       </EyeForm>
     </main>
   );
 };
 
-export default AddEyeglass;
+export default CreateEyeglassVariant;
