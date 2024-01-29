@@ -1,9 +1,15 @@
-import { Card, Descriptions, Skeleton } from "antd";
+import { PrinterFilled } from "@ant-design/icons";
+import { Button, Card, Descriptions, Skeleton } from "antd";
 import Title from "antd/es/typography/Title";
 import { useParams } from "react-router-dom";
 import ErrorUI from "../../components/ui/ErrorUI";
 import { useGetSaleDetailsQuery } from "../../redux/features/Sales/saleApi";
-import { calculateSalePrice, capitalizeString, formatDate } from "../../utils";
+import {
+  calculateSalePrice,
+  capitalizeString,
+  formatDate,
+  invoiceGenerator,
+} from "../../utils";
 
 const SaleDetails = () => {
   const { id } = useParams();
@@ -13,22 +19,49 @@ const SaleDetails = () => {
   const sale: any = data?.data;
   const productData: any = sale?.product;
 
+  const getInvoice = () => {
+    const payload = {
+      id: sale._id,
+      product: productData?.name,
+      price: calculateSalePrice(sale?.quantity, productData?.price),
+      quantity: sale?.quantity,
+      buyer: sale?.buyerName,
+      seller: sale?.seller?.name,
+      time: formatDate(sale?.saleAt),
+    };
+
+    invoiceGenerator(payload);
+  };
+
   return isLoading ? (
     <Skeleton active />
   ) : isError ? (
     <ErrorUI errorMessage={(error as any)?.data?.message} />
   ) : (
     <Card>
-      <Title
-        level={5}
+      <div
         style={{
-          margin: "20px",
-          textAlign: "center",
-          textTransform: "uppercase",
+          width: "100%",
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
         }}
       >
-        Sale Details
-      </Title>
+        <Title
+          level={5}
+          style={{
+            margin: "20px",
+            textAlign: "center",
+            textTransform: "uppercase",
+          }}
+        >
+          Sale Details
+        </Title>
+        <Button onClick={getInvoice} icon={<PrinterFilled />} type="primary">
+          Print Invoice
+        </Button>
+      </div>
+
       <Descriptions bordered>
         <Descriptions.Item label="Product Name">
           {productData?.name}
@@ -52,7 +85,6 @@ const SaleDetails = () => {
         level={5}
         style={{
           margin: "20px",
-          textAlign: "center",
           textTransform: "uppercase",
         }}
       >
