@@ -1,9 +1,10 @@
 import { LockOutlined, UploadOutlined, UserOutlined } from "@ant-design/icons";
-import { Button, Input } from "antd";
+import { Button } from "antd";
 import { ChangeEvent, useState } from "react";
 import { FieldValues, useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "sonner";
+import EyeFileInput from "../../components/form/EyeFileInput";
 import EyeForm from "../../components/form/EyeForm";
 import EyeInput from "../../components/form/EyeInput";
 import { useRegistrationMutation } from "../../redux/features/Auth/authApi";
@@ -17,6 +18,7 @@ const Registration = () => {
   // loading handling
   const [loading, setLoading] = useState(false);
   const [file, setFile] = useState<any>(null);
+  const [fileReset, setFileReset] = useState(false);
 
   const navigate = useNavigate();
 
@@ -29,11 +31,13 @@ const Registration = () => {
     dispatch(logout());
     try {
       const formData = new FormData();
-      const data = JSON.stringify(values);
+      const data: Record<string, any> = values;
+      const strData = JSON.stringify(data);
       formData.append("file", file);
-      formData.append("data", data);
+      formData.append("data", strData);
       const res = await userRegistration(formData).unwrap();
       methods.reset();
+      setFileReset(true);
       toast.success(`${res.message}!`);
       setLoading(false);
       navigate("/login");
@@ -98,14 +102,12 @@ const Registration = () => {
           requiredMessage="Please enter your email!"
         />
 
-        <Input
+        <EyeFileInput
           name="file"
-          type="file"
-          style={{
-            marginBottom: "15px",
-          }}
+          placeholder="Select image"
           prefix={<UploadOutlined className="site-form-item-icon" />}
           onChange={handelFileChange}
+          isReset={fileReset}
         />
 
         <EyeInput

@@ -34,7 +34,7 @@ const Sales = () => {
       title: "Price & Quantity",
       dataIndex: "price&Quantity",
       key: "details",
-      render: (text: string, record: any) => (
+      render: (_text: string, record: any) => (
         <div
           style={{
             width: "100%",
@@ -53,7 +53,7 @@ const Sales = () => {
       title: "Details",
       dataIndex: "details",
       key: "details",
-      render: (text: string, record: any) => (
+      render: (_text: string, record: any) => (
         <div
           style={{
             width: "100%",
@@ -73,7 +73,7 @@ const Sales = () => {
     {
       title: "Actions",
       key: "actions",
-      render: (text: string, record: any) => (
+      render: (_text: string, record: any) => (
         <div
           style={{
             display: "flex",

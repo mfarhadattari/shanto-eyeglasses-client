@@ -89,7 +89,7 @@ const Eyeglasses = () => {
       title: "Price & Quantity",
       dataIndex: "price&Quantity",
       key: "details",
-      render: (text: string, record: TEyeglass) => (
+      render: (_text: string, record: TEyeglass) => (
         <>
           <p>
             <strong>Price: {record.price} </strong>
@@ -106,7 +106,7 @@ const Eyeglasses = () => {
       title: "Details",
       dataIndex: "details",
       key: "details",
-      render: (text: string, record: TEyeglass) => (
+      render: (_text: string, record: TEyeglass) => (
         <>
           <p>
             <strong>Frame Material:</strong> {record.frameMaterial}
@@ -124,7 +124,7 @@ const Eyeglasses = () => {
       title: "Details",
       dataIndex: "details",
       key: "details",
-      render: (text: string, record: TEyeglass) => (
+      render: (_text: string, record: TEyeglass) => (
         <>
           <p>
             <strong>Brand:</strong> {record.brand}
@@ -141,7 +141,7 @@ const Eyeglasses = () => {
     {
       title: "Actions",
       key: "actions",
-      render: (text: string, record: TEyeglass) => (
+      render: (_text: string, record: TEyeglass) => (
         <div
           style={{
             display: "flex",
