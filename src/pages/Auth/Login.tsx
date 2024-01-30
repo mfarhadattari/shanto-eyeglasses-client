@@ -36,7 +36,7 @@ const Login = () => {
       methods.reset();
       toast.success(`${message}!`);
       navigate(redirectUrl);
-    } else if (res?.error) {
+    } else if (res?.error?.data) {
       const { message } = res.error.data;
       toast.error(`${message}!`);
     } else {

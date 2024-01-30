@@ -1,3 +1,4 @@
+import { ClearOutlined, SearchOutlined } from "@ant-design/icons";
 import { Button } from "antd";
 import queryString from "query-string";
 import { Dispatch, SetStateAction, useState } from "react";
@@ -17,9 +18,15 @@ import EyeSelect from "../form/EyeSelect";
 
 interface IFilterEyeglasses {
   setEyeglasses: Dispatch<SetStateAction<TEyeglass[]>>;
+  setIsEyeglassFilter: Dispatch<SetStateAction<boolean>>;
+  preData: TEyeglass[];
 }
 
-const FilterEyeglasses = ({ setEyeglasses }: IFilterEyeglasses) => {
+const FilterEyeglasses = ({
+  setEyeglasses,
+  setIsEyeglassFilter,
+  preData,
+}: IFilterEyeglasses) => {
   const methods = useForm();
 
   const [filterEyeglasses] = useFilterEyeglassMutation();
@@ -41,6 +48,7 @@ const FilterEyeglasses = ({ setEyeglasses }: IFilterEyeglasses) => {
       });
       if (!data) {
         setLoading(false);
+        setEyeglasses(preData);
         return toast.warning("Eyeglass filter failed!");
       }
       const searchStr = queryString.stringify(data);
@@ -75,7 +83,7 @@ const FilterEyeglasses = ({ setEyeglasses }: IFilterEyeglasses) => {
         <EyeSelect
           name="price"
           placeholder="Price Range"
-          options={["50-100", "100-500", "100-1000", "500-1000"]}
+          options={["50-100", "100-500", "100-1000", "500-1000", "null"]}
         />
         <div style={{ display: "flex", gap: "10px" }}>
           <EyeInput name="brand" placeholder="Brand" type="text" />
@@ -99,14 +107,27 @@ const FilterEyeglasses = ({ setEyeglasses }: IFilterEyeglasses) => {
           />
           <EyeSelect name="gender" placeholder="Gender" options={GENDERS} />
         </div>
-        <Button
-          loading={loading}
-          type="primary"
-          htmlType="submit"
-          style={{ width: "100%" }}
-        >
-          Filter
-        </Button>
+        <div style={{ width: "100%", display: "flex", gap: "10px" }}>
+          <Button
+            type="primary"
+            ghost
+            htmlType="button"
+            style={{ width: "100%" }}
+            onClick={() => setIsEyeglassFilter(false)}
+            icon={<ClearOutlined />}
+          >
+            Close
+          </Button>
+          <Button
+            loading={loading}
+            type="primary"
+            htmlType="submit"
+            style={{ width: "100%" }}
+            icon={<SearchOutlined />}
+          >
+            Filter
+          </Button>
+        </div>
       </EyeForm>
     </div>
   );

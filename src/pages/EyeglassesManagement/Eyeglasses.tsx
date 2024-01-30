@@ -69,6 +69,9 @@ const Eyeglasses = () => {
     }
   };
 
+  // eyeglass filter
+  const [isEyeglassFilter, setIsEyeglassFilter] = useState(false);
+
   // table columns setup
   const columns = [
     {
@@ -244,7 +247,23 @@ const Eyeglasses = () => {
               marginBottom: "20px",
             }}
           >
-            <FilterEyeglasses setEyeglasses={setEyeglasses} />
+            {isEyeglassFilter ? (
+              <FilterEyeglasses
+                setEyeglasses={setEyeglasses}
+                setIsEyeglassFilter={setIsEyeglassFilter}
+                preData={eyeglasses}
+              />
+            ) : (
+              <Button
+                onClick={() => setIsEyeglassFilter(true)}
+                type="primary"
+                ghost
+                size="large"
+              >
+                Filter Eyeglass
+              </Button>
+            )}
+
             <Input
               style={{
                 marginBottom: "20px",
