@@ -22,6 +22,7 @@ const authApi = baseApi.injectEndpoints({
         method: "POST",
         body: data,
       }),
+      invalidatesTags: ["profile"],
     }),
     registration: builder.mutation({
       query: (data: FormData) => ({
@@ -35,6 +36,7 @@ const authApi = baseApi.injectEndpoints({
         url: "/auth/my-profile",
         method: "GET",
       }),
+      providesTags: ["profile"],
     }),
   }),
 });

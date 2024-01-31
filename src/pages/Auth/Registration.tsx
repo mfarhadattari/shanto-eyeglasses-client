@@ -108,6 +108,7 @@ const Registration = () => {
           prefix={<UploadOutlined className="site-form-item-icon" />}
           onChange={handelFileChange}
           isReset={fileReset}
+          acceptType="image/*"
         />
 
         <EyeInput

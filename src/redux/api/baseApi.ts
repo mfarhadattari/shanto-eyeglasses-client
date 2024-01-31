@@ -69,6 +69,7 @@ const baseApi = createApi({
     "Sales",
     "SingleSale",
     "dashboard",
+    "profile",
   ],
   endpoints: () => ({}),
 });

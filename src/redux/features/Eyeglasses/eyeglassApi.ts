@@ -1,3 +1,4 @@
+import { Key } from "react";
 import baseApi from "../../api/baseApi";
 
 const eyeglassApi = baseApi.injectEndpoints({
@@ -37,6 +38,14 @@ const eyeglassApi = baseApi.injectEndpoints({
       }),
       invalidatesTags: ["Eyeglasses", "SingleEyeglass"],
     }),
+    bulkDeleteEyeglasses: builder.mutation({
+      query: (ids: Key[]) => ({
+        url: `/eyeglasses/bulk-delete`,
+        method: "DELETE",
+        body: { ids },
+      }),
+      invalidatesTags: ["Eyeglasses", "SingleEyeglass"],
+    }),
     addEyeglass: builder.mutation({
       query: (data: FormData) => ({
         url: `/eyeglasses`,
@@ -60,6 +69,7 @@ export const {
   useGetEyeglassDetailsQuery,
   useGetEyeglassesQuery,
   useDeleteEyeglassMutation,
+  useBulkDeleteEyeglassesMutation,
   useAddEyeglassMutation,
   useUpdateEyeglassMutation,
   useSearchEyeglassMutation,

@@ -190,6 +190,7 @@ const CreateEyeglassVariant = () => {
           label="Image"
           onChange={handelFileChange}
           isReset={fileReset}
+          acceptType="image/*"
         />
 
         <Button

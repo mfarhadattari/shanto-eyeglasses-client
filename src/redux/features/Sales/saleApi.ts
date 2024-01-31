@@ -14,7 +14,7 @@ const saleApi = baseApi.injectEndpoints({
         method: "POST",
         body: data,
       }),
-      invalidatesTags: ["Eyeglasses", "Sales"],
+      invalidatesTags: ["Eyeglasses", "Sales", "dashboard"],
     }),
     getSales: builder.query({
       query: () => ({

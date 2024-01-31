@@ -7,10 +7,11 @@ import {
   ShoppingFilled,
 } from "@ant-design/icons";
 import { Button, Image, Input, Skeleton, Table } from "antd";
-import { useEffect, useState } from "react";
+import { Key, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { toast } from "sonner";
 import AddSaleModal from "../../components/ui/AddSaleModal";
+import BulkDeleteModal from "../../components/ui/BulkDeleteModal";
 import DeleteConfirm from "../../components/ui/DeleteConfirm";
 import ErrorUI from "../../components/ui/ErrorUI";
 import FilterEyeglasses from "../../components/ui/FilterEyeglasses";
@@ -38,7 +39,7 @@ const Eyeglasses = () => {
     setEyeglassId(id);
   };
 
-  // eyeglass delete handling
+  // ------------------>> eyeglass delete handling <<--------------------
   const [deleteConfirmOpen, setDeleteConfirmOpen] = useState(false);
   const [deleteEyeglassId, setDeleteEyeglassId] = useState("false");
   const [isDeleteOpe, setIsDeleteOpe] = useState(true);
@@ -51,7 +52,7 @@ const Eyeglasses = () => {
     setDeleteConfirmOpen(true);
   };
 
-  // eyeglass search handling
+  // --------------->> eyeglass search handling <<--------------------------
   const [searchEyeglasses] = useSearchEyeglassMutation();
   const onEyeglassesSearch = async (e: any) => {
     const searchTerm = e.target.value;
@@ -69,10 +70,10 @@ const Eyeglasses = () => {
     }
   };
 
-  // eyeglass filter
+  // ------------------->> eyeglass filter <<---------------------------
   const [isEyeglassFilter, setIsEyeglassFilter] = useState(false);
 
-  // table columns setup
+  // --------------------->> table columns setup <<---------------------
   const columns = [
     {
       title: "Image",
@@ -231,6 +232,17 @@ const Eyeglasses = () => {
     },
   ];
 
+  // --------------->> bulk delete handling <<--------------------------
+  const [showBulkDeleteModal, setShowBulkDeleteModal] = useState(false);
+
+  const [selectedIdsForBulkDelete, setSelectedIdsForBulkDelete] = useState<
+    Key[]
+  >([]);
+
+  const onSelectChange = (ids: Key[]) => {
+    setSelectedIdsForBulkDelete(ids);
+  };
+
   return (
     <main>
       {isLoading ? (
@@ -247,6 +259,7 @@ const Eyeglasses = () => {
               marginBottom: "20px",
             }}
           >
+            {/* ------------------> Filter Eyeglasses <----------------- */}
             {isEyeglassFilter ? (
               <FilterEyeglasses
                 setEyeglasses={setEyeglasses}
@@ -264,6 +277,7 @@ const Eyeglasses = () => {
               </Button>
             )}
 
+            {/* --------------------> Search Eyeglasses <------------ */}
             <Input
               style={{
                 marginBottom: "20px",
@@ -277,7 +291,38 @@ const Eyeglasses = () => {
               onChange={onEyeglassesSearch}
             />
           </div>
+
+          {/* ---------------------> Bulk Delete Eyeglasses <------------------ */}
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "end",
+              marginBottom: "10px",
+            }}
+          >
+            <Button
+              type="default"
+              danger
+              size="large"
+              disabled={selectedIdsForBulkDelete.length <= 0}
+              onClick={() => setShowBulkDeleteModal(true)}
+              icon={<DeleteFilled />}
+            >
+              Delete{" "}
+              {selectedIdsForBulkDelete.length > 0 &&
+                selectedIdsForBulkDelete.length}
+            </Button>
+          </div>
+          {/* ---------------------> Eyeglasses Table <------------------ */}
           <Table
+            rowSelection={{
+              selectedRowKeys: selectedIdsForBulkDelete,
+              onChange: onSelectChange,
+              getCheckboxProps: (record: TEyeglass) => ({
+                disabled: record.isDeleted,
+                name: record._id,
+              }),
+            }}
             columns={columns}
             dataSource={eyeglasses.map((e: TEyeglass) => ({
               key: e._id,
@@ -286,14 +331,21 @@ const Eyeglasses = () => {
           />
         </div>
       )}
-      {/*  sale eyeglasses modal */}
+      {/* ---------------->>  delete eyeglass modal <<------------------*/}
       <DeleteConfirm
         open={deleteConfirmOpen}
         id={deleteEyeglassId}
         onCancel={() => setDeleteConfirmOpen(false)}
         isDeleteOpe={isDeleteOpe}
       />
-      {/*  sale eyeglasses modal */}
+      {/* -------------->> sale eyeglasses modal <<-----------------*/}
+      <BulkDeleteModal
+        open={showBulkDeleteModal}
+        onCancel={() => setShowBulkDeleteModal(false)}
+        selectedIds={selectedIdsForBulkDelete}
+        setSelectedIdsForBulkDelete={setSelectedIdsForBulkDelete}
+      />
+      {/* -------------->> sale eyeglasses modal <<-----------------*/}
       <AddSaleModal
         open={showModal}
         onCancel={() => setShowModal(false)}

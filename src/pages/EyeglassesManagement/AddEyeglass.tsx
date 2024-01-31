@@ -167,6 +167,7 @@ const AddEyeglass = () => {
           label="Image"
           onChange={handelFileChange}
           isReset={fileReset}
+          acceptType="image/*"
         />
 
         <Button

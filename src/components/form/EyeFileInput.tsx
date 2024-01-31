@@ -12,6 +12,7 @@ type TEyeFileInput = {
   className?: string;
   onChange?: ChangeEventHandler<HTMLInputElement>;
   isReset?: boolean;
+  acceptType?: string;
 };
 
 const EyeFileInput = ({
@@ -24,6 +25,7 @@ const EyeFileInput = ({
   style,
   isReset,
   onChange,
+  acceptType,
 }: TEyeFileInput) => {
   const { control, reset } = useFormContext();
 
@@ -66,6 +68,7 @@ const EyeFileInput = ({
             type="file"
             onChange={onChange}
             prefix={prefix}
+            accept={acceptType}
           />
         )}
       />
