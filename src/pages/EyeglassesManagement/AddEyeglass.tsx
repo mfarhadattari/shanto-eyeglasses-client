@@ -1,7 +1,7 @@
 import { Button } from "antd";
 import { ChangeEvent, useState } from "react";
 import { FieldValues, useForm } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 import EyeFileInput from "../../components/form/EyeFileInput";
 import EyeForm from "../../components/form/EyeForm";
@@ -13,9 +13,11 @@ import {
   GENDERS,
   LENSTYPES,
 } from "../../const/eyeglass.const";
+import usePageTitle from "../../hooks/usePageTitle";
 import { useAddEyeglassMutation } from "../../redux/features/Eyeglasses/eyeglassApi";
 
 const AddEyeglass = () => {
+  const title = usePageTitle("Add Eyeglass");
   const methods = useForm();
 
   // loading handling
@@ -74,11 +76,25 @@ const AddEyeglass = () => {
         alignItems: "center",
       }}
     >
+      {title}
       <EyeForm
         style={{ width: "75%", margin: "0 auto" }}
         methods={methods}
         onSubmit={onAddEyeglassFormSubmit}
       >
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "end",
+            marginBottom: "20px",
+          }}
+        >
+          <Link to="/eyeglasses">
+            <Button htmlType="button" type="primary">
+              Back to eyeglasses page
+            </Button>
+          </Link>
+        </div>
         <h3
           style={{
             textAlign: "center",
@@ -131,14 +147,14 @@ const AddEyeglass = () => {
         <div style={{ display: "flex", gap: "10px" }}>
           <EyeSelect
             name="frameMaterial"
-            placeholder="Select frame material"
+            placeholder="Frame material"
             options={FRAMEMATERIALS}
             requiredMessage="Please select frame material!"
             label="Frame Material"
           />
           <EyeSelect
             name="frameShape"
-            placeholder="Select frame shape"
+            placeholder="Frame shape"
             options={FRAMESHAPES}
             requiredMessage="Please select frame shape!"
             label="Frame Shape"
@@ -147,14 +163,14 @@ const AddEyeglass = () => {
         <div style={{ display: "flex", gap: "10px" }}>
           <EyeSelect
             name="lensType"
-            placeholder="Select lens type"
+            placeholder="Lens type"
             options={LENSTYPES}
             requiredMessage="Please select lens type!"
             label="Lens Type"
           />
           <EyeSelect
             name="gender"
-            placeholder="Select gender"
+            placeholder="Gender"
             options={GENDERS}
             requiredMessage="Please select gender!"
             label="Gender"
@@ -162,7 +178,7 @@ const AddEyeglass = () => {
         </div>
         <EyeFileInput
           name="file"
-          placeholder="Select image"
+          placeholder="Image"
           requiredMessage="Please select image!"
           label="Image"
           onChange={handelFileChange}

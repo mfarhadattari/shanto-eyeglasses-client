@@ -30,10 +30,11 @@ const MainLayout = () => {
             />
           </div>
         </Header>
-        <Content style={{ margin: "24px 16px 0" }}>
+        <Content style={{ margin: "24px  0" }}>
           <div
             style={{
-              padding: 24,
+              padding: 10,
+              paddingTop: 25,
               minHeight: 360,
             }}
           >

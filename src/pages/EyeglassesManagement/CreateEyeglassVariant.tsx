@@ -1,7 +1,7 @@
 import { Button, Skeleton } from "antd";
 import { ChangeEvent, useState } from "react";
 import { FieldValues, useForm } from "react-hook-form";
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { toast } from "sonner";
 import EyeFileInput from "../../components/form/EyeFileInput";
 import EyeForm from "../../components/form/EyeForm";
@@ -14,6 +14,7 @@ import {
   GENDERS,
   LENSTYPES,
 } from "../../const/eyeglass.const";
+import usePageTitle from "../../hooks/usePageTitle";
 import {
   useAddEyeglassMutation,
   useGetEyeglassDetailsQuery,
@@ -21,6 +22,7 @@ import {
 import { TEyeglass } from "../../types/eyeglass.type";
 
 const CreateEyeglassVariant = () => {
+  const title = usePageTitle("Create Eyeglass Variant");
   const { id } = useParams();
   const { data, isLoading, isError, error } = useGetEyeglassDetailsQuery(id);
   const eyeglass: TEyeglass = data?.data;
@@ -74,6 +76,7 @@ const CreateEyeglassVariant = () => {
       toast.error(`${error?.data?.message}!` || "Something went wrong!");
     }
   };
+
   /* ---------------- Handel File Change -------------- */
   const handelFileChange = (e: ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;
@@ -84,125 +87,141 @@ const CreateEyeglassVariant = () => {
     }
   };
 
-  return isLoading ? (
-    <Skeleton active />
-  ) : id && isError ? (
-    <ErrorUI errorMessage={(error as any)?.data?.message} />
-  ) : (
-    <main
-      style={{
-        width: "100%",
-        display: "flex",
-        justifyItems: "center",
-        alignItems: "center",
-      }}
-    >
-      <EyeForm
-        style={{ width: "75%", margin: "0 auto" }}
-        methods={methods}
-        onSubmit={onCreateEyeglassVariantFormSubmit}
-      >
-        <h3
+  return (
+    <>
+      {title}
+      {isLoading ? (
+        <Skeleton active />
+      ) : id && isError ? (
+        <ErrorUI errorMessage={(error as any)?.data?.message} />
+      ) : (
+        <main
           style={{
-            textAlign: "center",
-            marginBottom: "20px",
-            fontSize: "20px",
+            width: "100%",
+            display: "flex",
+            justifyItems: "center",
+            alignItems: "center",
           }}
         >
-          Create Variant
-        </h3>
+          <EyeForm
+            style={{ width: "75%", margin: "0 auto" }}
+            methods={methods}
+            onSubmit={onCreateEyeglassVariantFormSubmit}
+          >
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "end",
+                marginBottom: "20px",
+              }}
+            >
+              <Link to="/eyeglasses">
+                <Button type="primary">Back to eyeglasses page</Button>
+              </Link>
+            </div>
+            <h3
+              style={{
+                textAlign: "center",
+                marginBottom: "20px",
+                fontSize: "20px",
+              }}
+            >
+              Create Variant
+            </h3>
 
-        <EyeInput
-          name="name"
-          placeholder="Name"
-          type="text"
-          label="Name"
-          defaultValue={eyeglass?.name}
-        />
-        <div style={{ display: "flex", gap: "10px" }}>
-          <EyeInput
-            name="price"
-            placeholder="Price"
-            type="number"
-            label="Price"
-            defaultValue={eyeglass?.price}
-          />
-          <EyeInput
-            name="quantity"
-            placeholder="Quantity"
-            type="number"
-            label="Quantity"
-            defaultValue={eyeglass?.quantity}
-          />
-        </div>
-        <div style={{ display: "flex", gap: "10px" }}>
-          <EyeInput
-            label="Brand"
-            name="brand"
-            placeholder="Brand"
-            type="text"
-            defaultValue={eyeglass?.brand}
-          />
-          <EyeInput
-            label="Color"
-            name="color"
-            placeholder="Color"
-            type="text"
-            defaultValue={eyeglass?.color}
-          />
-        </div>
-        <div style={{ display: "flex", gap: "10px" }}>
-          <EyeSelect
-            name="frameMaterial"
-            placeholder="Select frame material"
-            options={FRAMEMATERIALS}
-            label="Frame Material"
-            defaultValue={eyeglass?.frameMaterial}
-          />
-          <EyeSelect
-            name="frameShape"
-            placeholder="Select frame shape"
-            options={FRAMESHAPES}
-            label="Frame Shape"
-            defaultValue={eyeglass?.frameShape}
-          />
-        </div>
-        <div style={{ display: "flex", gap: "10px" }}>
-          <EyeSelect
-            name="lensType"
-            placeholder="Select lens type"
-            options={LENSTYPES}
-            label="Lens Type"
-            defaultValue={eyeglass?.lensType}
-          />
-          <EyeSelect
-            name="gender"
-            placeholder="Select gender"
-            options={GENDERS}
-            label="Gender"
-            defaultValue={eyeglass?.gender}
-          />
-        </div>
-        <EyeFileInput
-          name="file"
-          placeholder="Select image"
-          requiredMessage="Please select image!"
-          label="Image"
-          onChange={handelFileChange}
-          isReset={fileReset}
-          acceptType="image/*"
-        />
+            <EyeInput
+              name="name"
+              placeholder="Name"
+              type="text"
+              label="Name"
+              defaultValue={eyeglass?.name}
+            />
+            <div style={{ display: "flex", gap: "10px" }}>
+              <EyeInput
+                name="price"
+                placeholder="Price"
+                type="number"
+                label="Price"
+                defaultValue={eyeglass?.price}
+              />
+              <EyeInput
+                name="quantity"
+                placeholder="Quantity"
+                type="number"
+                label="Quantity"
+                defaultValue={eyeglass?.quantity}
+              />
+            </div>
+            <div style={{ display: "flex", gap: "10px" }}>
+              <EyeInput
+                label="Brand"
+                name="brand"
+                placeholder="Brand"
+                type="text"
+                defaultValue={eyeglass?.brand}
+              />
+              <EyeInput
+                label="Color"
+                name="color"
+                placeholder="Color"
+                type="text"
+                defaultValue={eyeglass?.color}
+              />
+            </div>
+            <div style={{ display: "flex", gap: "10px" }}>
+              <EyeSelect
+                name="frameMaterial"
+                placeholder="Frame material"
+                options={FRAMEMATERIALS}
+                label="Frame Material"
+                defaultValue={eyeglass?.frameMaterial}
+              />
+              <EyeSelect
+                name="frameShape"
+                placeholder="Frame shape"
+                options={FRAMESHAPES}
+                label="Frame Shape"
+                defaultValue={eyeglass?.frameShape}
+              />
+            </div>
+            <div style={{ display: "flex", gap: "10px" }}>
+              <EyeSelect
+                name="lensType"
+                placeholder="Lens type"
+                options={LENSTYPES}
+                label="Lens Type"
+                defaultValue={eyeglass?.lensType}
+              />
+              <EyeSelect
+                name="gender"
+                placeholder="Gender"
+                options={GENDERS}
+                label="Gender"
+                defaultValue={eyeglass?.gender}
+              />
+            </div>
+            <EyeFileInput
+              name="file"
+              placeholder="Image"
+              requiredMessage="Please select image!"
+              label="Image"
+              onChange={handelFileChange}
+              isReset={fileReset}
+              acceptType="image/*"
+            />
 
-        <Button
-          type="primary"
-          htmlType="submit"
-          style={{ width: "100%" }}
-          loading={loading}
-        >
-          Create Variant{" "}
-        </Button>
-      </EyeForm>
-    </main>
+            <Button
+              type="primary"
+              htmlType="submit"
+              style={{ width: "100%" }}
+              loading={loading}
+            >
+              Create Variant{" "}
+            </Button>
+          </EyeForm>
+        </main>
+      )}
+    </>
   );
 };
 

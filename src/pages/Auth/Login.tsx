@@ -5,6 +5,7 @@ import { FieldValues, useForm } from "react-hook-form";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 import EyeForm from "../../components/form/EyeForm";
+import usePageTitle from "../../hooks/usePageTitle";
 import {
   ILoginCredentials,
   useLoginMutation,
@@ -14,6 +15,8 @@ import { useAppDispatch } from "../../redux/hooks";
 import EyeInput from "./../../components/form/EyeInput";
 
 const Login = () => {
+  const title = usePageTitle("Login");
+
   const methods = useForm();
 
   const [userLogin] = useLoginMutation();
@@ -55,6 +58,7 @@ const Login = () => {
         alignItems: "center",
       }}
     >
+      {title}
       <EyeForm
         methods={methods}
         className="login-form"

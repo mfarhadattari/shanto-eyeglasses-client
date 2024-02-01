@@ -3,6 +3,7 @@ import { Card, Col, Row, Skeleton, Statistic } from "antd";
 import Title from "antd/es/typography/Title";
 import ErrorUI from "../components/ui/ErrorUI";
 import SaleHistoryChart from "../components/ui/SaleHistoryChart";
+import usePageTitle from "../hooks/usePageTitle";
 import { useGetDashboardQuery } from "../redux/features/dashboard/dashboardApi";
 import { useAppSelector } from "../redux/hooks";
 
@@ -10,9 +11,11 @@ const Home = () => {
   const user = useAppSelector((state) => state.auth.user);
   const { data, isLoading, isError, error } = useGetDashboardQuery(undefined);
   const dashboard = data?.data;
+  const title = usePageTitle("Home");
 
   return (
     <div style={{ padding: "20px" }}>
+      {title}
       <div
         style={{
           marginBottom: "20px",

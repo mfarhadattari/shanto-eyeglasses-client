@@ -1,7 +1,7 @@
 // src/components/BulkDelete.js
 
 import { Alert, Modal } from "antd";
-import { Dispatch, Key } from "react";
+import { Dispatch, Key, useState } from "react";
 import { toast } from "sonner";
 import { useBulkDeleteEyeglassesMutation } from "../../redux/features/Eyeglasses/eyeglassApi";
 
@@ -19,14 +19,18 @@ const BulkDeleteModal = ({
   setSelectedIdsForBulkDelete,
 }: IBulkDeleteModal) => {
   const [bulkDeleteEyeglasses] = useBulkDeleteEyeglassesMutation();
+  const [loading, setLoading] = useState(false);
   const handleBulkDelete = async () => {
+    setLoading(true);
     try {
       const res = await bulkDeleteEyeglasses(selectedIds).unwrap();
-      toast.success(res.message);
-      onCancel();
       setSelectedIdsForBulkDelete([]);
+      setLoading(false);
+      onCancel();
+      toast.success(res.message);
     } catch (error: any) {
       toast.error(`${error?.data?.message}` || "Something went wrong!");
+      setLoading(false);
     }
   };
 
@@ -36,6 +40,7 @@ const BulkDeleteModal = ({
       open={open}
       onCancel={onCancel}
       onOk={handleBulkDelete}
+      confirmLoading={loading}
     >
       <Alert
         message="Warning"

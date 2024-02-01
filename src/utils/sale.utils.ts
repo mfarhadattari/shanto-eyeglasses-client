@@ -4,11 +4,11 @@ import config from "../config";
 
 /* --------------> Sale Price Calculator <--------------- */
 export const calculateSalePrice = (quantity: number, price: number) => {
-  return quantity * price;
+  return Number((quantity * price).toFixed(2));
 };
 
 /* --------------> Sale At Date Format <--------------- */
-export const formatDate = (dateTime: string) => {
+export const formatDate = (dateTime: Date) => {
   return moment(dateTime).format("dddd, DD MMMM YYYY, HH:mm:ss");
 };
 

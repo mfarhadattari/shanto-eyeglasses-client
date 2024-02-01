@@ -6,7 +6,7 @@ import {
   SearchOutlined,
   ShoppingFilled,
 } from "@ant-design/icons";
-import { Button, Image, Input, Skeleton, Table } from "antd";
+import { Breakpoint, Button, Image, Input, Skeleton, Table } from "antd";
 import { Key, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { toast } from "sonner";
@@ -15,17 +15,19 @@ import BulkDeleteModal from "../../components/ui/BulkDeleteModal";
 import DeleteConfirm from "../../components/ui/DeleteConfirm";
 import ErrorUI from "../../components/ui/ErrorUI";
 import FilterEyeglasses from "../../components/ui/FilterEyeglasses";
+import usePageTitle from "../../hooks/usePageTitle";
 import {
   useGetEyeglassesQuery,
   useSearchEyeglassMutation,
 } from "../../redux/features/Eyeglasses/eyeglassApi";
 import { TEyeglass } from "../../types/eyeglass.type";
+import { capitalizeString } from "../../utils";
 
 const Eyeglasses = () => {
+  const title = usePageTitle("Eyeglasses Inventory");
   const [eyeglasses, setEyeglasses] = useState<TEyeglass[]>([]);
   const { data, isLoading, isError, error } = useGetEyeglassesQuery(undefined);
 
-  // const eyeglasses: TEyeglass[] = data?.data || [];
   useEffect(() => {
     setEyeglasses(data?.data || []);
   }, [data]);
@@ -73,6 +75,17 @@ const Eyeglasses = () => {
   // ------------------->> eyeglass filter <<---------------------------
   const [isEyeglassFilter, setIsEyeglassFilter] = useState(false);
 
+  // --------------->> bulk delete handling <<--------------------------
+  const [showBulkDeleteModal, setShowBulkDeleteModal] = useState(false);
+
+  const [selectedIdsForBulkDelete, setSelectedIdsForBulkDelete] = useState<
+    Key[]
+  >([]);
+
+  const onSelectChange = (ids: Key[]) => {
+    setSelectedIdsForBulkDelete(ids);
+  };
+
   // --------------------->> table columns setup <<---------------------
   const columns = [
     {
@@ -82,6 +95,7 @@ const Eyeglasses = () => {
       render: (image: string) => (
         <Image src={image} alt="Eyeglass" width={100} height={100} />
       ),
+      responsive: ["md"] as Breakpoint[],
     },
     {
       title: "Name",
@@ -105,6 +119,7 @@ const Eyeglasses = () => {
           </p>
         </>
       ),
+      responsive: ["md"] as Breakpoint[],
     },
     {
       title: "Details",
@@ -113,16 +128,18 @@ const Eyeglasses = () => {
       render: (_text: string, record: TEyeglass) => (
         <>
           <p>
-            <strong>Frame Material:</strong> {record.frameMaterial}
+            <strong>Frame Material:</strong>{" "}
+            {capitalizeString(record.frameMaterial)}
           </p>
           <p>
-            <strong>Frame Shape:</strong> {record.frameShape}
+            <strong>Frame Shape:</strong> {capitalizeString(record.frameShape)}
           </p>
           <p>
-            <strong>Lens Type:</strong> {record.lensType}
+            <strong>Lens Type:</strong> {capitalizeString(record.lensType)}
           </p>
         </>
       ),
+      responsive: ["lg"] as Breakpoint[],
     },
     {
       title: "Details",
@@ -137,10 +154,11 @@ const Eyeglasses = () => {
             <strong>Color:</strong> {record.color}
           </p>
           <p>
-            <strong>Gender:</strong> {record.gender}
+            <strong>Gender:</strong> {capitalizeString(record.gender)}
           </p>
         </>
       ),
+      responsive: ["lg"] as Breakpoint[],
     },
     {
       title: "Actions",
@@ -151,6 +169,8 @@ const Eyeglasses = () => {
             display: "flex",
             flexDirection: "column",
             gap: "5px",
+            padding: "0px",
+            margin: "0px",
           }}
         >
           <div
@@ -232,19 +252,9 @@ const Eyeglasses = () => {
     },
   ];
 
-  // --------------->> bulk delete handling <<--------------------------
-  const [showBulkDeleteModal, setShowBulkDeleteModal] = useState(false);
-
-  const [selectedIdsForBulkDelete, setSelectedIdsForBulkDelete] = useState<
-    Key[]
-  >([]);
-
-  const onSelectChange = (ids: Key[]) => {
-    setSelectedIdsForBulkDelete(ids);
-  };
-
   return (
     <main>
+      {title}
       {isLoading ? (
         <Skeleton active />
       ) : isError ? (
@@ -257,6 +267,7 @@ const Eyeglasses = () => {
               justifyContent: "space-between",
               alignItems: "start",
               marginBottom: "20px",
+              gap: "10px",
             }}
           >
             {/* ------------------> Filter Eyeglasses <----------------- */}
@@ -264,7 +275,7 @@ const Eyeglasses = () => {
               <FilterEyeglasses
                 setEyeglasses={setEyeglasses}
                 setIsEyeglassFilter={setIsEyeglassFilter}
-                preData={eyeglasses}
+                preData={data?.data}
               />
             ) : (
               <Button
@@ -282,6 +293,7 @@ const Eyeglasses = () => {
               style={{
                 marginBottom: "20px",
                 width: "300px",
+                display: `${isEyeglassFilter ? "none" : "flex"}`,
               }}
               placeholder="Search"
               prefix={<SearchOutlined />}
@@ -323,6 +335,7 @@ const Eyeglasses = () => {
                 name: record._id,
               }),
             }}
+            pagination={{ position: ["topLeft"] }}
             columns={columns}
             dataSource={eyeglasses.map((e: TEyeglass) => ({
               key: e._id,

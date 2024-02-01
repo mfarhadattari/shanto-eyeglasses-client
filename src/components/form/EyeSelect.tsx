@@ -60,6 +60,7 @@ const EyeSelect = ({
             placeholder={placeholder}
             className={className}
             optionFilterProp="children"
+            allowClear
             filterOption={(input, option) =>
               (option?.label ?? "").includes(input)
             }

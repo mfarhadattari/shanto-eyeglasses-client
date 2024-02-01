@@ -1,3 +1,4 @@
+import { HelmetProvider } from "react-helmet-async";
 import { Provider } from "react-redux";
 import { RouterProvider } from "react-router-dom";
 import { PersistGate } from "redux-persist/integration/react";
@@ -9,7 +10,9 @@ const MainProvider = () => {
   return (
     <Provider store={store}>
       <PersistGate persistor={persistor}>
-        <RouterProvider router={route}></RouterProvider>
+        <HelmetProvider>
+          <RouterProvider router={route}></RouterProvider>
+        </HelmetProvider>
         <Toaster richColors />
       </PersistGate>
     </Provider>

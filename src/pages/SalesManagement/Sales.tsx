@@ -4,19 +4,22 @@ import {
   InfoCircleFilled,
   UserOutlined,
 } from "@ant-design/icons";
-import { Button, Select, Skeleton, Table } from "antd";
+import { Breakpoint, Button, Select, Skeleton, Table } from "antd";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { toast } from "sonner";
 import ErrorUI from "../../components/ui/ErrorUI";
+import usePageTitle from "../../hooks/usePageTitle";
 import {
   useFilterSalesMutation,
   useGetSalesQuery,
 } from "../../redux/features/Sales/saleApi";
+import { TSale } from "../../types/sale.type";
 import { calculateSalePrice, formatDate } from "../../utils";
 
 const Sales = () => {
-  const [sales, setSales] = useState<any[]>([]);
+  const title = usePageTitle("Sales");
+  const [sales, setSales] = useState<TSale[]>([]);
   const { data, isLoading, isError, error } = useGetSalesQuery(undefined);
 
   useEffect(() => {
@@ -43,7 +46,7 @@ const Sales = () => {
       title: "Price & Quantity",
       dataIndex: "price&Quantity",
       key: "details",
-      render: (_text: string, record: any) => (
+      render: (_text: string, record: TSale) => (
         <div
           style={{
             width: "100%",
@@ -52,8 +55,7 @@ const Sales = () => {
         >
           <p>Quantity: {record.quantity}</p>
           <p>
-            Price: $
-            {calculateSalePrice(record?.quantity, record?.product?.quantity)}
+            Price: ${calculateSalePrice(record?.quantity, record?.productPrice)}
           </p>
         </div>
       ),
@@ -62,7 +64,7 @@ const Sales = () => {
       title: "Details",
       dataIndex: "details",
       key: "details",
-      render: (_text: string, record: any) => (
+      render: (_text: string, record: TSale) => (
         <div
           style={{
             width: "100%",
@@ -77,12 +79,13 @@ const Sales = () => {
           </p>
         </div>
       ),
+      responsive: ["md"] as Breakpoint[],
     },
 
     {
       title: "Actions",
       key: "actions",
-      render: (_text: string, record: any) => (
+      render: (_text: string, record: TSale) => (
         <div
           style={{
             display: "flex",
@@ -106,6 +109,7 @@ const Sales = () => {
           <Link
             style={{ width: "100%" }}
             to={`/eyeglasses/${record?.product?._id}`}
+            state={{ from: "/sales" }}
           >
             <Button
               icon={<EyeFilled />}
@@ -144,6 +148,7 @@ const Sales = () => {
 
   return (
     <main>
+      {title}
       {isLoading ? (
         <Skeleton active />
       ) : isError ? (

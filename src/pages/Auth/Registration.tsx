@@ -7,11 +7,13 @@ import { toast } from "sonner";
 import EyeFileInput from "../../components/form/EyeFileInput";
 import EyeForm from "../../components/form/EyeForm";
 import EyeInput from "../../components/form/EyeInput";
+import usePageTitle from "../../hooks/usePageTitle";
 import { useRegistrationMutation } from "../../redux/features/Auth/authApi";
 import { logout } from "../../redux/features/Auth/authSlice";
 import { useAppDispatch } from "../../redux/hooks";
 
 const Registration = () => {
+  const title = usePageTitle("Registration");
   const methods = useForm();
   const [userRegistration] = useRegistrationMutation();
   const dispatch = useAppDispatch();
@@ -67,6 +69,7 @@ const Registration = () => {
         alignItems: "center",
       }}
     >
+      {title}
       <EyeForm
         methods={methods}
         className="login-form"

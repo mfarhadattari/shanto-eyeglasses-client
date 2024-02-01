@@ -1,7 +1,9 @@
 import { Button, Result } from "antd";
 import { Link } from "react-router-dom";
+import usePageTitle from "../hooks/usePageTitle";
 
 const NotFound = () => {
+  const title = usePageTitle("Error");
   return (
     <div
       style={{
@@ -12,6 +14,7 @@ const NotFound = () => {
         justifyContent: "center",
       }}
     >
+      {title}
       <Result
         status="404"
         title="Page is not found"

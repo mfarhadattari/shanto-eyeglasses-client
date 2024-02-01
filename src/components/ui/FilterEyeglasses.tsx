@@ -1,4 +1,4 @@
-import { ClearOutlined, SearchOutlined } from "@ant-design/icons";
+import { CloseCircleFilled, SearchOutlined } from "@ant-design/icons";
 import { Button } from "antd";
 import queryString from "query-string";
 import { Dispatch, SetStateAction, useState } from "react";
@@ -62,6 +62,12 @@ const FilterEyeglasses = ({
     }
   };
 
+  /* -------------------->> Clear Filter Handler <<----------- */
+  const handelClearFilter = () => {
+    setEyeglasses(preData);
+    setIsEyeglassFilter(false);
+  };
+
   return (
     <div>
       <EyeForm
@@ -113,10 +119,10 @@ const FilterEyeglasses = ({
             ghost
             htmlType="button"
             style={{ width: "100%" }}
-            onClick={() => setIsEyeglassFilter(false)}
-            icon={<ClearOutlined />}
+            onClick={handelClearFilter}
+            icon={<CloseCircleFilled />}
           >
-            Close
+            Clear Filter
           </Button>
           <Button
             loading={loading}
