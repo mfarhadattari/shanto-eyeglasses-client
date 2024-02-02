@@ -1,3 +1,4 @@
+import { ShoppingFilled } from "@ant-design/icons";
 import { Button, Modal } from "antd";
 import { useState } from "react";
 import { FieldValues, useForm } from "react-hook-form";
@@ -68,6 +69,7 @@ const AddSaleModal = ({ open, onCancel, id }: IAddSaleModal) => {
           htmlType="submit"
           style={{ width: "100%" }}
           loading={loading}
+          icon={<ShoppingFilled />}
         >
           Sale Eyeglass
         </Button>

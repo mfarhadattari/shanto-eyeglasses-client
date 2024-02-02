@@ -1,7 +1,7 @@
 import {
   ClockCircleOutlined,
-  EyeFilled,
   InfoCircleFilled,
+  RightCircleFilled,
   UserOutlined,
 } from "@ant-design/icons";
 import { Breakpoint, Button, Select, Skeleton, Table } from "antd";
@@ -112,7 +112,7 @@ const Sales = () => {
             state={{ from: "/sales" }}
           >
             <Button
-              icon={<EyeFilled />}
+              icon={<RightCircleFilled />}
               type="primary"
               style={{ width: "100%" }}
             >

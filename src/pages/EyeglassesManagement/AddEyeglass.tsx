@@ -1,12 +1,14 @@
+import { PlusCircleOutlined } from "@ant-design/icons";
 import { Button } from "antd";
 import { ChangeEvent, useState } from "react";
 import { FieldValues, useForm } from "react-hook-form";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 import EyeFileInput from "../../components/form/EyeFileInput";
 import EyeForm from "../../components/form/EyeForm";
 import EyeInput from "../../components/form/EyeInput";
 import EyeSelect from "../../components/form/EyeSelect";
+import BackButton from "../../components/ui/BackButton";
 import {
   FRAMEMATERIALS,
   FRAMESHAPES,
@@ -89,11 +91,7 @@ const AddEyeglass = () => {
             marginBottom: "20px",
           }}
         >
-          <Link to="/eyeglasses">
-            <Button htmlType="button" type="primary">
-              Back to eyeglasses page
-            </Button>
-          </Link>
+          <BackButton title="Back to eyeglasses page" to="/eyeglasses" />
         </div>
         <h3
           style={{
@@ -187,6 +185,7 @@ const AddEyeglass = () => {
         />
 
         <Button
+          icon={<PlusCircleOutlined />}
           type="primary"
           htmlType="submit"
           style={{ width: "100%" }}

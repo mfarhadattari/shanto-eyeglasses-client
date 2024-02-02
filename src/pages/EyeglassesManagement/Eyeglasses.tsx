@@ -5,6 +5,7 @@ import {
   ReadFilled,
   SearchOutlined,
   ShoppingFilled,
+  UndoOutlined,
 } from "@ant-design/icons";
 import { Breakpoint, Button, Image, Input, Skeleton, Table } from "antd";
 import { Key, useEffect, useState } from "react";
@@ -234,7 +235,7 @@ const Eyeglasses = () => {
             </Button>
             {/* ----------- Delete Eyeglass Button ------------- */}
             <Button
-              icon={<DeleteFilled />}
+              icon={record.isDeleted ? <UndoOutlined /> : <DeleteFilled />}
               type={record.isDeleted ? "dashed" : "primary"}
               danger
               onClick={() =>
@@ -244,7 +245,7 @@ const Eyeglasses = () => {
                 })
               }
             >
-              {record.isDeleted ? "Back" : "Delete"}
+              {record.isDeleted ? "Restore" : "Delete"}
             </Button>
           </div>
         </div>

@@ -64,6 +64,7 @@ const EyeInput = ({
             defaultValue={defaultValue}
             id={name}
             prefix={prefix}
+            allowClear
           />
         )}
       />

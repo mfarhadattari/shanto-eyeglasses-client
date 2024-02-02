@@ -69,6 +69,7 @@ const EyeFileInput = ({
             onChange={onChange}
             prefix={prefix}
             accept={acceptType}
+            allowClear
           />
         )}
       />

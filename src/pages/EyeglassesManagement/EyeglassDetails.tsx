@@ -1,6 +1,7 @@
-import { Button, Card, Col, Divider, Row, Skeleton, Tag } from "antd";
+import { Card, Col, Divider, Row, Skeleton, Tag } from "antd";
 import { ReactNode } from "react";
-import { Link, useLocation, useParams } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
+import BackButton from "../../components/ui/BackButton";
 import ErrorUI from "../../components/ui/ErrorUI";
 import usePageTitle from "../../hooks/usePageTitle";
 import { useGetEyeglassDetailsQuery } from "../../redux/features/Eyeglasses/eyeglassApi";
@@ -31,11 +32,14 @@ const EyeglassDetails = () => {
               marginBottom: "20px",
             }}
           >
-            <Link to={navigateTo}>
-              <Button type="primary" htmlType="button">
-                Back to {navigateTo === "/sales" ? "sales" : "eyeglasses"} page{" "}
-              </Button>
-            </Link>
+            <BackButton
+              title={
+                navigateTo === "/sales"
+                  ? "Back to sales page"
+                  : "Back to eyeglasses page"
+              }
+              to={navigateTo}
+            />
           </div>
           <Row gutter={[16, 16]}>
             <Col

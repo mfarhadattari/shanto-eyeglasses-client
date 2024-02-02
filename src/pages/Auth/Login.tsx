@@ -1,4 +1,4 @@
-import { LockOutlined, UserOutlined } from "@ant-design/icons";
+import { LockOutlined, LoginOutlined, UserOutlined } from "@ant-design/icons";
 import { Button } from "antd";
 import { useState } from "react";
 import { FieldValues, useForm } from "react-hook-form";
@@ -92,6 +92,7 @@ const Login = () => {
           style={{ width: "100%" }}
           className="login-form-button"
           loading={loading}
+          icon={<LoginOutlined />}
         >
           Log in
         </Button>

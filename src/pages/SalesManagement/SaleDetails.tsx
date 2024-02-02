@@ -1,7 +1,8 @@
 import { PrinterFilled } from "@ant-design/icons";
 import { Button, Card, Descriptions, Skeleton } from "antd";
 import Title from "antd/es/typography/Title";
-import { Link, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
+import BackButton from "../../components/ui/BackButton";
 import ErrorUI from "../../components/ui/ErrorUI";
 import usePageTitle from "../../hooks/usePageTitle";
 import { useGetSaleDetailsQuery } from "../../redux/features/Sales/saleApi";
@@ -129,9 +130,7 @@ const SaleDetails = () => {
               marginTop: "20px",
             }}
           >
-            <Link to="/sales">
-              <Button type="primary">Back to sales page</Button>
-            </Link>
+            <BackButton title="Back to sales page" to="/sales" />
           </div>
         </Card>
       )}

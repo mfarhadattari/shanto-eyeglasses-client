@@ -1,8 +1,8 @@
 import {
-  EyeOutlined,
   HomeOutlined,
   LogoutOutlined,
-  StockOutlined,
+  ShopOutlined,
+  ShoppingOutlined,
   UserOutlined,
 } from "@ant-design/icons";
 import { Button, Layout, Menu } from "antd";
@@ -33,7 +33,7 @@ const Sidebar = () => {
     {
       key: "eyeglasses",
       label: "Eyeglasses Management",
-      icon: <EyeOutlined />,
+      icon: <ShopOutlined />,
       children: [
         { key: "/eyeglasses", label: <Link to="/eyeglasses">Eyeglasses</Link> },
         {
@@ -44,7 +44,7 @@ const Sidebar = () => {
     },
     {
       key: "/sales",
-      icon: <StockOutlined />,
+      icon: <ShoppingOutlined />,
       label: <Link to="/sales">Sales</Link>,
     },
     {
@@ -60,8 +60,9 @@ const Sidebar = () => {
           onClick={() => dispatch(logout())}
           type="dashed"
           danger
+          icon={<LogoutOutlined />}
         >
-          <LogoutOutlined /> Logout
+          Logout
         </Button>
       ),
     },

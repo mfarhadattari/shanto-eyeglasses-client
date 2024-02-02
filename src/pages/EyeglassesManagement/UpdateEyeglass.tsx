@@ -1,11 +1,13 @@
+import { CheckCircleOutlined } from "@ant-design/icons";
 import { Button, Skeleton } from "antd";
 import { useState } from "react";
 import { FieldValues, useForm } from "react-hook-form";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "sonner";
 import EyeForm from "../../components/form/EyeForm";
 import EyeInput from "../../components/form/EyeInput";
 import EyeSelect from "../../components/form/EyeSelect";
+import BackButton from "../../components/ui/BackButton";
 import ErrorUI from "../../components/ui/ErrorUI";
 import {
   FRAMEMATERIALS,
@@ -91,9 +93,7 @@ const UpdateEyeglass = () => {
                 marginBottom: "20px",
               }}
             >
-              <Link to="/eyeglasses">
-                <Button type="primary">Back to eyeglasses page</Button>
-              </Link>
+              <BackButton title="Back to eyeglasses page" to="/eyeglasses" />
             </div>
             <h3
               style={{
@@ -178,6 +178,7 @@ const UpdateEyeglass = () => {
             </div>
 
             <Button
+              icon={<CheckCircleOutlined />}
               type="primary"
               htmlType="submit"
               style={{ width: "100%" }}

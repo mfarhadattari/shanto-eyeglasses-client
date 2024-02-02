@@ -1,4 +1,9 @@
-import { LockOutlined, UploadOutlined, UserOutlined } from "@ant-design/icons";
+import {
+  LockOutlined,
+  UploadOutlined,
+  UserAddOutlined,
+  UserOutlined,
+} from "@ant-design/icons";
 import { Button } from "antd";
 import { ChangeEvent, useState } from "react";
 import { FieldValues, useForm } from "react-hook-form";
@@ -123,6 +128,7 @@ const Registration = () => {
         />
 
         <Button
+          icon={<UserAddOutlined />}
           type="primary"
           htmlType="submit"
           style={{ width: "100%" }}
