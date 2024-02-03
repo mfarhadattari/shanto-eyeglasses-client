@@ -8,6 +8,7 @@ import EyeFileInput from "../../components/form/EyeFileInput";
 import EyeForm from "../../components/form/EyeForm";
 import EyeInput from "../../components/form/EyeInput";
 import EyeSelect from "../../components/form/EyeSelect";
+import EyeTextArea from "../../components/form/EyeTextArea";
 import BackButton from "../../components/ui/BackButton";
 import {
   FRAMEMATERIALS,
@@ -17,6 +18,7 @@ import {
 } from "../../const/eyeglass.const";
 import usePageTitle from "../../hooks/usePageTitle";
 import { useAddEyeglassMutation } from "../../redux/features/Eyeglasses/eyeglassApi";
+import { formatOtherRelevantAttributes } from "../../utils";
 
 const AddEyeglass = () => {
   const title = usePageTitle("Add Eyeglass");
@@ -35,6 +37,17 @@ const AddEyeglass = () => {
     if (!file) {
       return toast.error("No image selected");
     }
+
+    if (values.otherRelevantAttributes) {
+      const otherRelevantAttributes = formatOtherRelevantAttributes(
+        values.otherRelevantAttributes
+      );
+      if (!otherRelevantAttributes) {
+        return toast.error("Invalid attributes: key1 = value1, key1 = value2");
+      }
+      values.otherRelevantAttributes = otherRelevantAttributes;
+    }
+
     setLoading(true);
     try {
       const formData = new FormData();
@@ -59,6 +72,7 @@ const AddEyeglass = () => {
       toast.error(`${error?.data?.message}!` || "Something went wrong!");
     }
   };
+
   /* ---------------- Handel File Change -------------- */
   const handelFileChange = (e: ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;
@@ -182,6 +196,12 @@ const AddEyeglass = () => {
           onChange={handelFileChange}
           isReset={fileReset}
           acceptType="image/*"
+        />
+        <EyeTextArea
+          label="Other Relevant Attributes"
+          name="otherRelevantAttributes"
+          placeholder="Write attributes like:
+           key1 = value1, key1 = value2"
         />
 
         <Button

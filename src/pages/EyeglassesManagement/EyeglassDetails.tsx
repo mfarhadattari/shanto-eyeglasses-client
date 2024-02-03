@@ -47,11 +47,25 @@ const EyeglassDetails = () => {
               md={12}
               style={{ minHeight: "100%", overflow: "hidden" }}
             >
-              <img
-                src={eyeglass?.image}
-                alt={eyeglass?.name}
-                style={{ maxWidth: "100%", height: "100%" }}
-              />
+              <Card
+                bordered={false}
+                style={{
+                  minHeight: "100%",
+                  display: "flex",
+                  justifyItems: "center",
+                  alignItems: "center",
+                }}
+              >
+                <img
+                  src={eyeglass?.image}
+                  alt={eyeglass?.name}
+                  style={{
+                    width: "100%",
+                    maxHeight: "400px",
+                    backgroundColor: "white",
+                  }}
+                />
+              </Card>
             </Col>
             <Col
               xs={24}
@@ -101,9 +115,14 @@ const EyeglassDetails = () => {
                     <ul style={{ listStyle: "none" }}>
                       {Object.entries(eyeglass?.otherRelevantAttributes)?.map(
                         ([key, value]) => (
-                          <li key={key}>
+                          <li style={{ marginTop: "3px" }} key={key}>
                             <Tag>
-                              {key} : {value as ReactNode}
+                              {key}:{" "}
+                              {value === true
+                                ? "Yes"
+                                : value == false
+                                ? "No"
+                                : `${value as ReactNode}`}
                             </Tag>
                           </li>
                         )

@@ -8,6 +8,7 @@ import EyeFileInput from "../../components/form/EyeFileInput";
 import EyeForm from "../../components/form/EyeForm";
 import EyeInput from "../../components/form/EyeInput";
 import EyeSelect from "../../components/form/EyeSelect";
+import EyeTextArea from "../../components/form/EyeTextArea";
 import BackButton from "../../components/ui/BackButton";
 import ErrorUI from "../../components/ui/ErrorUI";
 import {
@@ -22,6 +23,10 @@ import {
   useGetEyeglassDetailsQuery,
 } from "../../redux/features/Eyeglasses/eyeglassApi";
 import { TEyeglass } from "../../types/eyeglass.type";
+import {
+  convertOtherAttributesIntoString,
+  formatOtherRelevantAttributes,
+} from "../../utils";
 
 const CreateEyeglassVariant = () => {
   const title = usePageTitle("Create Eyeglass Variant");
@@ -43,6 +48,15 @@ const CreateEyeglassVariant = () => {
   const onCreateEyeglassVariantFormSubmit = async (values: FieldValues) => {
     if (!file) {
       return toast.error("No image selected");
+    }
+    if (values.otherRelevantAttributes) {
+      const otherRelevantAttributes = formatOtherRelevantAttributes(
+        values.otherRelevantAttributes
+      );
+      if (!otherRelevantAttributes) {
+        return toast.error("Invalid attributes: key1 = value1, key1 = value2");
+      }
+      values.otherRelevantAttributes = otherRelevantAttributes;
     }
     setLoading(true);
     try {
@@ -208,6 +222,19 @@ const CreateEyeglassVariant = () => {
               onChange={handelFileChange}
               isReset={fileReset}
               acceptType="image/*"
+            />
+            <EyeTextArea
+              label="Other Relevant Attributes"
+              name="otherRelevantAttributes"
+              placeholder="Write attributes like:
+           key1 = value1, key1 = value2"
+              defaultValue={
+                eyeglass?.otherRelevantAttributes
+                  ? convertOtherAttributesIntoString(
+                      eyeglass.otherRelevantAttributes
+                    )
+                  : undefined
+              }
             />
 
             <Button

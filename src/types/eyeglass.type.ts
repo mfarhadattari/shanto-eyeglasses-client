@@ -48,6 +48,11 @@ export type TLensType =
 
 export type TGender = "men" | "women" | "unisex";
 
+export type TOtherRelevantAttributes = Record<
+  string,
+  string | number | boolean
+>;
+
 export type TEyeglass = {
   _id: string;
   name: string;
@@ -60,6 +65,6 @@ export type TEyeglass = {
   gender: TGender;
   color: string;
   image: string;
-  otherRelevantAttributes: Record<string, string | number | boolean>;
+  otherRelevantAttributes: TOtherRelevantAttributes;
   isDeleted: boolean;
 };

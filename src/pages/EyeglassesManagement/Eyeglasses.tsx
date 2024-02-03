@@ -129,14 +129,13 @@ const Eyeglasses = () => {
       render: (_text: string, record: TEyeglass) => (
         <>
           <p>
-            <strong>Frame Material:</strong>{" "}
-            {capitalizeString(record.frameMaterial)}
+            <strong>Material:</strong> {capitalizeString(record.frameMaterial)}
           </p>
           <p>
-            <strong>Frame Shape:</strong> {capitalizeString(record.frameShape)}
+            <strong>Shape:</strong> {capitalizeString(record.frameShape)}
           </p>
           <p>
-            <strong>Lens Type:</strong> {capitalizeString(record.lensType)}
+            <strong>Lens:</strong> {capitalizeString(record.lensType)}
           </p>
         </>
       ),

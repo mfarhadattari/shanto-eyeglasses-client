@@ -7,6 +7,7 @@ import { toast } from "sonner";
 import EyeForm from "../../components/form/EyeForm";
 import EyeInput from "../../components/form/EyeInput";
 import EyeSelect from "../../components/form/EyeSelect";
+import EyeTextArea from "../../components/form/EyeTextArea";
 import BackButton from "../../components/ui/BackButton";
 import ErrorUI from "../../components/ui/ErrorUI";
 import {
@@ -21,6 +22,10 @@ import {
   useUpdateEyeglassMutation,
 } from "../../redux/features/Eyeglasses/eyeglassApi";
 import { TEyeglass } from "../../types/eyeglass.type";
+import {
+  convertOtherAttributesIntoString,
+  formatOtherRelevantAttributes,
+} from "../../utils";
 
 const UpdateEyeglass = () => {
   const title = usePageTitle("Update Eyeglass");
@@ -37,6 +42,15 @@ const UpdateEyeglass = () => {
 
   /* ---------------- Eyeglass Submit Handler -------------- */
   const onUpdateEyeglassFormSubmit = async (values: FieldValues) => {
+    if (values.otherRelevantAttributes) {
+      const otherRelevantAttributes = formatOtherRelevantAttributes(
+        values.otherRelevantAttributes
+      );
+      if (!otherRelevantAttributes) {
+        return toast.error("Invalid attributes: key1 = value1, key1 = value2");
+      }
+      values.otherRelevantAttributes = otherRelevantAttributes;
+    }
     setLoading(true);
     try {
       let data: Record<string, any> | null = null;
@@ -176,6 +190,19 @@ const UpdateEyeglass = () => {
                 label="Gender"
               />
             </div>
+            <EyeTextArea
+              label="Other Relevant Attributes"
+              name="otherRelevantAttributes"
+              placeholder="Write attributes like:
+           key1 = value1, key1 = value2"
+              defaultValue={
+                eyeglass?.otherRelevantAttributes
+                  ? convertOtherAttributesIntoString(
+                      eyeglass.otherRelevantAttributes
+                    )
+                  : undefined
+              }
+            />
 
             <Button
               icon={<CheckCircleOutlined />}

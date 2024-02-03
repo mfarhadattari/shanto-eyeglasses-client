@@ -12,6 +12,7 @@ export const formatDate = (dateTime: Date) => {
   return moment(dateTime).format("dddd, DD MMMM YYYY, HH:mm:ss");
 };
 
+/* --------------> Invoice Generator <--------------- */
 export const invoiceGenerator = (payload: {
   id: string;
   product: string;
