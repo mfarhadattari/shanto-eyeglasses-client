@@ -1,4 +1,5 @@
 import {
+  ClearOutlined,
   CopyFilled,
   DeleteFilled,
   EditFilled,
@@ -15,7 +16,7 @@ import AddSaleModal from "../../components/ui/AddSaleModal";
 import BulkDeleteModal from "../../components/ui/BulkDeleteModal";
 import DeleteConfirm from "../../components/ui/DeleteConfirm";
 import ErrorUI from "../../components/ui/ErrorUI";
-import FilterEyeglasses from "../../components/ui/FilterEyeglasses";
+import FilterEyeglassesModal from "../../components/ui/FilterEyeglassesModal";
 import usePageTitle from "../../hooks/usePageTitle";
 import {
   useGetEyeglassesQuery,
@@ -75,9 +76,14 @@ const Eyeglasses = () => {
 
   // ------------------->> eyeglass filter <<---------------------------
   const [isEyeglassFilter, setIsEyeglassFilter] = useState(false);
+  const [isFiltered, setIsFiltered] = useState(false);
 
   // --------------->> bulk delete handling <<--------------------------
   const [showBulkDeleteModal, setShowBulkDeleteModal] = useState(false);
+  const handelClearFilter = () => {
+    setEyeglasses(data?.data);
+    setIsFiltered(false);
+  };
 
   const [selectedIdsForBulkDelete, setSelectedIdsForBulkDelete] = useState<
     Key[]
@@ -271,29 +277,41 @@ const Eyeglasses = () => {
             }}
           >
             {/* ------------------> Filter Eyeglasses <----------------- */}
-            {isEyeglassFilter ? (
-              <FilterEyeglasses
-                setEyeglasses={setEyeglasses}
-                setIsEyeglassFilter={setIsEyeglassFilter}
-                preData={data?.data}
-              />
-            ) : (
+            <div
+              style={{
+                display: "flex",
+                gap: "10px",
+              }}
+            >
               <Button
                 onClick={() => setIsEyeglassFilter(true)}
                 type="primary"
-                ghost
                 size="large"
+                icon={<SearchOutlined />}
               >
                 Filter Eyeglass
               </Button>
-            )}
+              <Button
+                onClick={handelClearFilter}
+                type="primary"
+                size="large"
+                danger
+                icon={<ClearOutlined />}
+                style={{
+                  display: isFiltered ? "flex" : "none",
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              >
+                Clear Filter
+              </Button>
+            </div>
 
             {/* --------------------> Search Eyeglasses <------------ */}
             <Input
               style={{
                 marginBottom: "20px",
                 width: "300px",
-                display: `${isEyeglassFilter ? "none" : "flex"}`,
               }}
               placeholder="Search"
               prefix={<SearchOutlined />}
@@ -363,6 +381,14 @@ const Eyeglasses = () => {
         open={showModal}
         onCancel={() => setShowModal(false)}
         id={eyeglassId}
+      />
+      {/* -------------->> Filter eyeglasses modal <<-----------------*/}
+      <FilterEyeglassesModal
+        setEyeglasses={setEyeglasses}
+        preData={data?.data}
+        open={isEyeglassFilter}
+        setIsFiltered={setIsFiltered}
+        onCancel={() => setIsEyeglassFilter(false)}
       />
     </main>
   );

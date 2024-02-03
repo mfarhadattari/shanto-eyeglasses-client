@@ -1,5 +1,5 @@
-import { CloseCircleFilled, SearchOutlined } from "@ant-design/icons";
-import { Button } from "antd";
+import { SearchOutlined } from "@ant-design/icons";
+import { Button, Modal } from "antd";
 import queryString from "query-string";
 import { Dispatch, SetStateAction, useState } from "react";
 import { FieldValues, useForm } from "react-hook-form";
@@ -12,21 +12,27 @@ import {
 } from "../../const/eyeglass.const";
 import { useFilterEyeglassMutation } from "../../redux/features/Eyeglasses/eyeglassApi";
 import { TEyeglass } from "../../types/eyeglass.type";
+import { formatOtherRelevantAttributes } from "../../utils";
 import EyeForm from "../form/EyeForm";
 import EyeInput from "../form/EyeInput";
 import EyeSelect from "../form/EyeSelect";
+import EyeTextArea from "../form/EyeTextArea";
 
-interface IFilterEyeglasses {
+interface IFilterEyeglassesModal {
+  open: boolean;
+  onCancel: () => void;
   setEyeglasses: Dispatch<SetStateAction<TEyeglass[]>>;
-  setIsEyeglassFilter: Dispatch<SetStateAction<boolean>>;
+  setIsFiltered: Dispatch<SetStateAction<boolean>>;
   preData: TEyeglass[];
 }
 
-const FilterEyeglasses = ({
+const FilterEyeglassesModal = ({
+  open,
+  onCancel,
   setEyeglasses,
-  setIsEyeglassFilter,
   preData,
-}: IFilterEyeglasses) => {
+  setIsFiltered,
+}: IFilterEyeglassesModal) => {
   const methods = useForm();
 
   const [filterEyeglasses] = useFilterEyeglassMutation();
@@ -35,6 +41,12 @@ const FilterEyeglasses = ({
 
   /* -------------- Filter Submit Handler -------------- */
   const onFilterSubmit = async (values: FieldValues) => {
+    if (
+      values.otherRelevantAttributes &&
+      !formatOtherRelevantAttributes(values.otherRelevantAttributes)
+    ) {
+      return toast.error("Invalid attributes- key1 : value1, key1 : value2");
+    }
     setLoading(true);
     try {
       let data: Record<string, any> | null = null;
@@ -49,27 +61,30 @@ const FilterEyeglasses = ({
       if (!data) {
         setLoading(false);
         setEyeglasses(preData);
+        setIsFiltered(false);
+        onCancel();
         return toast.warning("Eyeglass filter failed!");
       }
       const searchStr = queryString.stringify(data);
       const res = await filterEyeglasses(searchStr).unwrap();
+      if (res.data.length <= 0) {
+        toast.error("No eyeglasses found!");
+      } else {
+        toast.success(`${res.message}!`);
+      }
       setEyeglasses(res?.data);
-      toast.success(`${res.message}!`);
       setLoading(false);
+      onCancel();
+      setIsFiltered(true);
     } catch (error: any) {
       setLoading(false);
+      setIsFiltered(false);
       toast.error(`${error?.data?.message}!` || "Something went wrong!");
     }
   };
 
-  /* -------------------->> Clear Filter Handler <<----------- */
-  const handelClearFilter = () => {
-    setEyeglasses(preData);
-    setIsEyeglassFilter(false);
-  };
-
   return (
-    <div>
+    <Modal open={open} onCancel={onCancel} footer={null}>
       <EyeForm
         methods={methods}
         style={{
@@ -113,17 +128,13 @@ const FilterEyeglasses = ({
           />
           <EyeSelect name="gender" placeholder="Gender" options={GENDERS} />
         </div>
+        <EyeTextArea
+          rows={2}
+          name="otherRelevantAttributes"
+          placeholder="Write attributes like:
+           key1 : value1, key1 : value2"
+        />
         <div style={{ width: "100%", display: "flex", gap: "10px" }}>
-          <Button
-            type="primary"
-            ghost
-            htmlType="button"
-            style={{ width: "100%" }}
-            onClick={handelClearFilter}
-            icon={<CloseCircleFilled />}
-          >
-            Clear Filter
-          </Button>
           <Button
             loading={loading}
             type="primary"
@@ -135,8 +146,8 @@ const FilterEyeglasses = ({
           </Button>
         </div>
       </EyeForm>
-    </div>
+    </Modal>
   );
 };
 
-export default FilterEyeglasses;
+export default FilterEyeglassesModal;

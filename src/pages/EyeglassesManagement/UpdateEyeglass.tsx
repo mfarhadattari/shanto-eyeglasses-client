@@ -47,7 +47,7 @@ const UpdateEyeglass = () => {
         values.otherRelevantAttributes
       );
       if (!otherRelevantAttributes) {
-        return toast.error("Invalid attributes: key1 = value1, key1 = value2");
+        return toast.error("Invalid attributes: key1 : value1, key1 : value2");
       }
       values.otherRelevantAttributes = otherRelevantAttributes;
     }
@@ -194,7 +194,7 @@ const UpdateEyeglass = () => {
               label="Other Relevant Attributes"
               name="otherRelevantAttributes"
               placeholder="Write attributes like:
-           key1 = value1, key1 = value2"
+           key1 : value1, key1 : value2"
               defaultValue={
                 eyeglass?.otherRelevantAttributes
                   ? convertOtherAttributesIntoString(

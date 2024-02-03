@@ -12,6 +12,7 @@ type TEyeTextArea = {
   style?: object;
   className?: string;
   defaultValue?: any;
+  rows?: number;
 };
 
 const EyeTextArea = ({
@@ -22,6 +23,7 @@ const EyeTextArea = ({
   defaultValue,
   className,
   style,
+  rows = 4,
 }: TEyeTextArea) => {
   const {
     formState: { errors },
@@ -60,7 +62,7 @@ const EyeTextArea = ({
             defaultValue={defaultValue}
             id={name}
             allowClear
-            rows={4}
+            rows={rows}
           />
         )}
       />

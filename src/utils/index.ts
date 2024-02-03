@@ -13,7 +13,7 @@ export const formatOtherRelevantAttributes = (inputValue: string) => {
   try {
     inputValue
       .split(",")
-      .map((eachAttribute: string) => eachAttribute.split("="))
+      .map((eachAttribute: string) => eachAttribute.split(":"))
       .forEach(([key, value]) => {
         const formattedKey = key.trim();
         let formattedValue: any = value.trim();
@@ -37,5 +37,5 @@ export const convertOtherAttributesIntoString = (
   otherRelevantAttributes: TOtherRelevantAttributes
 ) => {
   const entries = Object.entries(otherRelevantAttributes);
-  return entries.map(([key, value]) => `${key}=${value}`).join(", ");
+  return entries.map(([key, value]) => `${key}:${value}`).join(", ");
 };
