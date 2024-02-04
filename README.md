@@ -58,6 +58,13 @@ https://drive.google.com/file/d/1XIMKLg8sg1_laJneJr86rW6wJmtggWS9/view?usp=drive
 
 https://drive.google.com/file/d/1_rm_pnOB48wIWYZLwaKEtAbqzkRSd5Bw/view?usp=drive_link
 
+## Login Credentials:
+
+```
+email: admin@gmail.com
+password: 123456
+```
+
 ## Used Technologies:
 
 - Typescript
