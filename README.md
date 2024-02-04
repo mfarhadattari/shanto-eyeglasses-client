@@ -6,7 +6,9 @@
 
 ### Clone the repository
 
+```bash
 git clone https://github.com/Porgramming-Hero-web-course/l2b2-full-stack-a5-client-side-mfarhadattari.git
+```
 
 ### Install Dependencies
 
@@ -37,7 +39,7 @@ yarn build
 ### To run built applications
 
 ```bash
-yarn start
+yarn preview
 ```
 
 ### Other Commands:
@@ -53,6 +55,8 @@ yarn deploy
 https://drive.google.com/file/d/1XIMKLg8sg1_laJneJr86rW6wJmtggWS9/view?usp=drive_link
 
 ## Demo Video
+
+https://drive.google.com/file/d/1_rm_pnOB48wIWYZLwaKEtAbqzkRSd5Bw/view?usp=drive_link
 
 ## Used Technologies:
 

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import {
   ClearOutlined,
   CopyFilled,
@@ -8,7 +9,7 @@ import {
   ShoppingFilled,
   UndoOutlined,
 } from "@ant-design/icons";
-import { Breakpoint, Button, Image, Input, Skeleton, Table } from "antd";
+import { Breakpoint, Button, Image, Input, Skeleton, Spin, Table } from "antd";
 import { Key, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { toast } from "sonner";
@@ -45,19 +46,25 @@ const Eyeglasses = () => {
 
   // ------------------>> eyeglass delete handling <<--------------------
   const [deleteConfirmOpen, setDeleteConfirmOpen] = useState(false);
-  const [deleteEyeglassId, setDeleteEyeglassId] = useState("false");
+  const [deleteEyeglassId, setDeleteEyeglassId] = useState<string | undefined>(
+    undefined
+  );
   const [isDeleteOpe, setIsDeleteOpe] = useState(true);
   const handelEyeglassDeleteConfirm = (payload: {
     id: string;
     isDeleted: boolean;
   }) => {
+    if (!payload.id) {
+      return toast.warning("No id was specified!");
+    }
     setDeleteEyeglassId(payload.id);
     setIsDeleteOpe(!payload.isDeleted);
     setDeleteConfirmOpen(true);
   };
 
   // --------------->> eyeglass search handling <<--------------------------
-  const [searchEyeglasses] = useSearchEyeglassMutation();
+  const [searchEyeglasses, { isLoading: isSearching }] =
+    useSearchEyeglassMutation();
   const onEyeglassesSearch = async (e: any) => {
     const searchTerm = e.target.value;
     if (!searchTerm) {
@@ -365,7 +372,7 @@ const Eyeglasses = () => {
       {/* ---------------->>  delete eyeglass modal <<------------------*/}
       <DeleteConfirm
         open={deleteConfirmOpen}
-        id={deleteEyeglassId}
+        id={deleteEyeglassId as string}
         onCancel={() => setDeleteConfirmOpen(false)}
         isDeleteOpe={isDeleteOpe}
       />
@@ -390,6 +397,7 @@ const Eyeglasses = () => {
         setIsFiltered={setIsFiltered}
         onCancel={() => setIsEyeglassFilter(false)}
       />
+      <Spin spinning={isSearching} fullscreen />
     </main>
   );
 };

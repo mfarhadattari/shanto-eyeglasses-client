@@ -1,5 +1,6 @@
 import {
   LockOutlined,
+  SolutionOutlined,
   UploadOutlined,
   UserAddOutlined,
   UserOutlined,
@@ -98,7 +99,7 @@ const Registration = () => {
           name="name"
           placeholder="Name"
           type="text"
-          prefix={<UserOutlined className="site-form-item-icon" />}
+          prefix={<SolutionOutlined className="site-form-item-icon" />}
           requiredMessage="Please enter your name!"
         />
 
