@@ -7,13 +7,13 @@
 ### Clone the repository
 
 ```bash
-git clone https://github.com/Porgramming-Hero-web-course/l2b2-full-stack-a5-client-side-mfarhadattari.git
+git clone https://github.com/Porgramming-Hero-web-course/l2-b2-assignment-6-fronten-mfarhadattari.git
 ```
 
 ### Install Dependencies
 
 ```bash
-cd l2b2-full-stack-a5-client-side-mfarhadattari
+cd l2-b2-assignment-6-fronten-mfarhadattari
 yarn
 ```
 
@@ -56,13 +56,18 @@ https://drive.google.com/file/d/1XIMKLg8sg1_laJneJr86rW6wJmtggWS9/view?usp=drive
 
 ## Demo Video
 
-https://drive.google.com/file/d/1_rm_pnOB48wIWYZLwaKEtAbqzkRSd5Bw/view?usp=drive_link
+https://drive.google.com/file/d/1iHYJtbIQ65i60Hgxe7GJ4MN1LnhOx3Wr/view?usp=drive_link
 
 ## Login Credentials:
 
 ```
-email: admin@gmail.com
-password: 123456
+MANAGER_EMAIL = admin@gmail.com
+MANAGER_PASS = 123456
+```
+
+```
+SELLER_Email = mfarhad@gmail.com
+SELLER_PASS = 12345
 ```
 
 ## Used Technologies:
@@ -77,3 +82,4 @@ password: 123456
 - Sonner
 - React helmet async
 - Reachart
+- JS-PDF

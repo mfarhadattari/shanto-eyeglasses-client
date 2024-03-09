@@ -1,6 +1,6 @@
 import { ShoppingFilled } from "@ant-design/icons";
 import { Button, Modal } from "antd";
-import { useState } from "react";
+import { Dispatch, SetStateAction, useState } from "react";
 import { FieldValues, useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { useAddSaleMutation } from "../../redux/features/Sales/saleApi";
@@ -11,9 +11,17 @@ interface IAddSaleModal {
   open: boolean;
   onCancel: () => void;
   id: string;
+  setInvoiceId: Dispatch<SetStateAction<string>>;
+  setInvoiceModel: Dispatch<SetStateAction<boolean>>;
 }
 
-const AddSaleModal = ({ open, onCancel, id }: IAddSaleModal) => {
+const AddSaleModal = ({
+  open,
+  onCancel,
+  id,
+  setInvoiceId,
+  setInvoiceModel,
+}: IAddSaleModal) => {
   const [loading, setLoading] = useState(false);
   const [addSale] = useAddSaleMutation();
   const methods = useForm();
@@ -28,6 +36,8 @@ const AddSaleModal = ({ open, onCancel, id }: IAddSaleModal) => {
     const res = await addSale(saleData);
     if ((res as any)?.data?.success) {
       toast.success(`${(res as any)?.data?.message}!`);
+      setInvoiceId((res as any)?.data?.data?._id);
+      setInvoiceModel(true);
       methods.reset();
       onCancel();
     } else if ((res as any)?.error) {

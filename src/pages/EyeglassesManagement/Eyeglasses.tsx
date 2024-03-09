@@ -18,6 +18,7 @@ import BulkDeleteModal from "../../components/ui/BulkDeleteModal";
 import DeleteConfirm from "../../components/ui/DeleteConfirm";
 import ErrorUI from "../../components/ui/ErrorUI";
 import FilterEyeglassesModal from "../../components/ui/FilterEyeglassesModal";
+import InvoiceModel from "../../components/ui/InvoiceModel";
 import usePageTitle from "../../hooks/usePageTitle";
 import {
   useGetEyeglassesQuery,
@@ -43,6 +44,10 @@ const Eyeglasses = () => {
     setShowModal(true);
     setEyeglassId(id);
   };
+
+  // invoice model handling
+  const [invoiceModel, setInvoiceModel] = useState(false);
+  const [invoiceId, setInvoiceId] = useState("");
 
   // ------------------>> eyeglass delete handling <<--------------------
   const [deleteConfirmOpen, setDeleteConfirmOpen] = useState(false);
@@ -388,6 +393,14 @@ const Eyeglasses = () => {
         open={showModal}
         onCancel={() => setShowModal(false)}
         id={eyeglassId}
+        setInvoiceId={setInvoiceId}
+        setInvoiceModel={setInvoiceModel}
+      />
+      {/* -------------->> invoice modal <<-----------------*/}
+      <InvoiceModel
+        open={invoiceModel}
+        onCancel={() => setInvoiceModel(false)}
+        id={invoiceId}
       />
       {/* -------------->> Filter eyeglasses modal <<-----------------*/}
       <FilterEyeglassesModal

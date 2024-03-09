@@ -22,7 +22,7 @@ const authApi = baseApi.injectEndpoints({
         method: "POST",
         body: data,
       }),
-      invalidatesTags: ["profile"],
+      invalidatesTags: ["profile", "Eyeglasses", "Sales"],
     }),
     registration: builder.mutation({
       query: (data: FormData) => ({
