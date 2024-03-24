@@ -1,10 +1,10 @@
 {
-  "name": "eyeglasses-management-dashboard",
-  "description": "Eyeglasses management dashboard client side",
+  "name": "shanto-eyeglasses",
+  "description": "Shanto Eyeglasses management dashboard client side",
   "private": true,
-  "version": "0.0.0",
+  "version": "0.0.1",
   "type": "module",
-  "repository": "https://github.com/Porgramming-Hero-web-course/l2b2-full-stack-a5-client-side-mfarhadattari.git",
+  "repository": "https://github.com/mfarhadattari/shanto-eyeglasses-client.git",
   "author": {
     "name": "Mohammad Farhad",
     "email": "mfarhad.dev@gmail.com"
